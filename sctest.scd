@@ -1,3 +1,7 @@
-thisProcess.openUDPPort(9999);OSCFunc.trace(true);
+thisProcess.openUDPPort(1234);
+thisProcess.openUDPPort(8888);
+OSCFunc.trace(true);
 
-MIDIIn.connectAll; MIDIFunc.trace(false)
+MIDIIn.connectAll; MIDIFunc.trace(true);
+
+0 % (8 - 1)

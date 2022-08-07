@@ -2,8 +2,8 @@
 
 // Edit these lines to create your own name.  The length must
 // match the number of characters in your custom name.
-#define MIDI_NAME   {'H','a','k','k','e','b','r','a','e','t'}
-#define MIDI_NAME_LEN  10
+#define MIDI_NAME   {'S', 'T', 'O', 'R', 'K', 'S'}
+#define MIDI_NAME_LEN  6
 
 // Do not change this part.  This exact format is required by USB.
 struct usb_string_descriptor_struct usb_string_product_name = {

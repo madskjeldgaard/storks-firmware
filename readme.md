@@ -1,6 +1,6 @@
-# Hakkebræt midicontroller
-**slang** 
-gammelt, primitivt eller slidt apparat eller instrument med tastatur eller klaviatur især en skrivemaskine eller et klaver
+# Storks firmware
+
+This repository contains the firmware for the Storks controller (a MIDI and OSC controller for music applications).
 
 ## Acknowledgements
 
