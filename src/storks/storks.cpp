@@ -2,8 +2,8 @@
 
 namespace storkspace {
 
-constexpr int menuEncPinA = 31;
-constexpr int menuEncPinB = 32;
+constexpr int menuEncPinA = 32;
+constexpr int menuEncPinB = 31;
 constexpr int menuEncButtonPin = 33;
 
 Storks::Storks()
