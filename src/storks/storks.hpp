@@ -62,9 +62,9 @@ class Storks {
         const bool channelNumHasBeenDecremented =
             (currentChanNum + inc) < currentChanNum;
 
-		// Change the channel
+        // Change the channel
         storkSystem->changeChannel(
-            wrapValue(currentChanNum + inc, 0, numChannels - 1), numLayers - 1);
+            wrapValue(currentChanNum + inc, 0, numChannels - 1));
 
         // Set new layer to miniumum or maximum layer depending on direction of
         // incrementation
