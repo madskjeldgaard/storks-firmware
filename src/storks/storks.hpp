@@ -53,20 +53,30 @@ class Storks {
       const auto currentChanNum = storkSystem->getCurrentChannel();
       const auto currentLayerNum = storkSystem->getCurrentLayer();
 
-      if (((currentLayerNum + inc) <= (numLayers - 1))) {
-        // If we haven't reached the final layer, just increment the layer
-        const auto newLayer =
-            wrapValue(currentLayerNum + inc, 0, numLayers - 1);
+      // If the potential new layer number wraps, it's time to change channel
+      const bool channelNeedsToBeChanged =
+          ((currentLayerNum + inc) >= numLayers) ||
+          ((currentLayerNum + inc) < 0);
 
-        storkSystem->changeLayer(newLayer);
+      if (channelNeedsToBeChanged) {
+        const bool channelNumHasBeenDecremented =
+            (currentChanNum + inc) < currentChanNum;
+
+		// Change the channel
+        storkSystem->changeChannel(
+            wrapValue(currentChanNum + inc, 0, numChannels - 1), numLayers - 1);
+
+        // Set new layer to miniumum or maximum layer depending on direction of
+        // incrementation
+        if (channelNumHasBeenDecremented) {
+          storkSystem->changeLayer(numLayers - 1);
+        } else {
+          storkSystem->changeLayer(0);
+        }
 
       } else {
-        const auto newChannel =
-            wrapValue(currentChanNum + inc, 0, numChannels - 1);
-
-        storkSystem->changeChannel(newChannel);
-        storkSystem->changeLayer(0);
-      }
+        storkSystem->changeLayer(currentLayerNum + inc);
+      };
     }
 
   private:
