@@ -92,8 +92,8 @@ void VirtualEncoder::sendMidi() const {
   // Upper 7 bits of signal
   const auto highBitVal = (value14 >> 7) & 0x7F;
 
-  usbMIDI.sendControlChange(ccNum + 32, lowBitVal, midiChannel);
-  usbMIDI.sendControlChange(ccNum, highBitVal, midiChannel);
+  usbMIDI.sendControlChange(ccNum + 32, lowBitVal, midiChannel+1);
+  usbMIDI.sendControlChange(ccNum, highBitVal, midiChannel+1);
 }
 
 void VirtualEncoder::sendOSC() const {

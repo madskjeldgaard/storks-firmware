@@ -30,9 +30,9 @@ void VirtualButton::sendMidi() const {
 
   constexpr auto velocity = 127;
   if (value == 1) {
-    usbMIDI.sendNoteOn(midiNoteNum, velocity, midiChannel);
+    usbMIDI.sendNoteOn(midiNoteNum, velocity, midiChannel+1);
   } else {
-    usbMIDI.sendNoteOff(midiNoteNum, velocity, midiChannel);
+    usbMIDI.sendNoteOff(midiNoteNum, velocity, midiChannel+1);
   }
 }
 
