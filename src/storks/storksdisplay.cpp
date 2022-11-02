@@ -126,9 +126,10 @@ void StorksDisplay::encoderInfo() {
   ssd1306display.setTextSize(2);
 
   // Midi info
-  ssd1306display.printf("CC%i CH:%i\nLY:%i/4", lastTouchedEncoder.encoderNum,
-                        lastTouchedEncoder.midiChannel,
-                        lastTouchedEncoder.layerNum + 1);
+  ssd1306display.printf("CC:%i %i/4\nCH:%i", lastTouchedEncoder.encoderNum,
+                        lastTouchedEncoder.layerNum + 1,
+                        lastTouchedEncoder.midiChannel
+  );
 
   /* @TODO: */
   /* if(settings.buttonSetup == ButtonSetup::Midi){ */
