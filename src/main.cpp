@@ -6,6 +6,7 @@
 storkspace::Storks storks;
 
 void setup() {
+  delay(1000); // Seems this is necessary to ensure the hardware is ready
   storks.setup();
 }
 
