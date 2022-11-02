@@ -18,7 +18,7 @@ void Layer::setup(
        virtencNum++) {
 
     const auto hardwareEncIndex = virtencNum % numHardwareEncoders;
-    const auto ccnum = hardwareEncIndex;
+    const auto ccnum = hardwareEncIndex + (layerNum * numHardwareEncoders);
     const auto wrapmode = WrapMode::Clip;
 
     virtualEncoders[virtencNum].setup(&hardwareEncoders[hardwareEncIndex],
