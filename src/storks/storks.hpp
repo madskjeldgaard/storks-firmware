@@ -112,17 +112,6 @@ private:
       HardwareEncoder(6, 7),
   }};
 
-  // std::array<HardwareButton, numHardwareButtons> hardwareButtons = {{
-  // 	HardwareButton(1),
-  // 	HardwareButton(2),
-  // 	HardwareButton(3),
-  // 	HardwareButton(4),
-  // 	HardwareButton(5),
-  // 	HardwareButton(6),
-  // 	HardwareButton(7),
-  // 	HardwareButton(8),
-  //   }};
-
   // Channel objects
   std::array<Channel, numChannels> channels;
 
