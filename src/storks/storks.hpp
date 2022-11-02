@@ -94,22 +94,22 @@ public:
 private:
   // Hardware encoders
   std::array<HardwareEncoder, numHardwareEncoders> hardwareEncoders = {{
-      HardwareEncoder(0, 1),
-      HardwareEncoder(2, 3),
-      HardwareEncoder(4, 5),
-      HardwareEncoder(6, 7),
+      HardwareEncoder(34, 35),
+      HardwareEncoder(14, 15),
       HardwareEncoder(8, 9),
+      HardwareEncoder(0, 1),
+      HardwareEncoder(36, 37),
+      HardwareEncoder(16, 17),
       HardwareEncoder(10, 11),
+      HardwareEncoder(2, 3),
+      HardwareEncoder(38, 39),
+      HardwareEncoder(20, 21),
       HardwareEncoder(12, 24),
+      HardwareEncoder(4, 5),
+      HardwareEncoder(40, 41),
+      HardwareEncoder(22, 23),
       HardwareEncoder(25, 26),
-      HardwareEncoder(23, 22),
-      HardwareEncoder(21, 20),
-      HardwareEncoder(17, 16),
-      HardwareEncoder(15, 14),
-      HardwareEncoder(41, 40),
-      HardwareEncoder(39, 38),
-      HardwareEncoder(37, 36),
-      HardwareEncoder(35, 34),
+      HardwareEncoder(6, 7),
   }};
 
   // std::array<HardwareButton, numHardwareButtons> hardwareButtons = {{
