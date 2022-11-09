@@ -48,6 +48,8 @@ class Storks {
       rawValue = newValue;
     };
 
+
+
     // Increase or decrease channel num / layer num
     void incrementOrDecrementChannel(const int inc) {
       const auto currentChanNum = storkSystem->getCurrentChannel();
@@ -79,6 +81,7 @@ class Storks {
       };
     }
 
+
   private:
     Storks *storkSystem;
     Encoder hardwareEncoder;
@@ -92,6 +95,7 @@ public:
   StorksDisplay storksdisplay;
 
 private:
+
   // Hardware encoders
   std::array<HardwareEncoder, numHardwareEncoders> hardwareEncoders = {{
       HardwareEncoder(34, 35),
@@ -127,6 +131,9 @@ public:
 
   const int getCurrentChannel() const { return currentChannel; }
   const int getCurrentLayer() const { return currentLayer; }
+
+  // Read all midi input to the device (mostly Sysex)
+  void readMIDIInput();
 
   void changeLayer(std::size_t newLayer) {
     if (newLayer < numLayers) {

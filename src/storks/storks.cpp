@@ -44,7 +44,8 @@ void Storks::setup() {
   // Setup channels
   for (std::size_t chanNum = 0; chanNum < channels.size(); chanNum++) {
     const auto midichan = chanNum;
-    channels[chanNum].setup(hardwareEncoders, &buttonMux, midichan, &osc, &storksdisplay);
+    channels[chanNum].setup(hardwareEncoders, &buttonMux, midichan, &osc,
+                            &storksdisplay);
 
     // Make sure all channels are off by default
     channels[chanNum].toggle(false);
@@ -60,6 +61,7 @@ void Storks::setup() {
 void Storks::loop() {
 
   storksdisplay.loop();
+  readMIDIInput();
 
   // Update hardware stuff
   for (std::size_t encoderNum = 0; encoderNum < hardwareEncoders.size();
@@ -82,4 +84,21 @@ void Storks::loop() {
   // Send osc bundles if any
   osc.loop();
 }
+
+void Storks::readMIDIInput() {
+  while (usbMIDI.read() > 0) {
+    // Read Sysex
+    if (usbMIDI.getType() == usbMIDI.SystemExclusive) {
+      auto *data = usbMIDI.getSysExArray();
+      auto len = usbMIDI.getSysExArrayLength();
+
+      // Print data
+      Serial.print("SYSEX: ");
+      for (int i = 0; i < len; ++i)
+        Serial.printf("%i ", data[i]);
+      Serial.println();
+    }
+  }
+}
+
 } // namespace storkspace
