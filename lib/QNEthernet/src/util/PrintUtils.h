@@ -8,12 +8,12 @@
 #define QNE_UTIL_PRINTUTILS_H_
 
 // C++ includes
+#include <Print.h>
+
 #include <cstddef>
 #include <cstdint>
 #include <cstdio>
 #include <functional>
-
-#include <Print.h>
 
 namespace qindesign {
 namespace network {

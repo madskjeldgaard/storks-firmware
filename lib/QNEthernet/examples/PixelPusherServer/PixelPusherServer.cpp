@@ -8,11 +8,11 @@
 #include "PixelPusherServer.h"
 
 // C++ includes
-#include <algorithm>
-#include <cstring>
-
 #include <IPAddress.h>
 #include <QNEthernet.h>
+
+#include <algorithm>
+#include <cstring>
 
 using namespace qindesign::network;
 
@@ -22,8 +22,8 @@ using namespace qindesign::network;
 static_assert(__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__, "Not little-endian");
 
 static constexpr size_t kMaxUDPSize = Ethernet.mtu() - 8 - 20;
-static constexpr size_t kMaxPixelsPerStrip = std::min((kMaxUDPSize - 4 - 1)/3,
-                                                      size_t{UINT16_MAX});
+static constexpr size_t kMaxPixelsPerStrip =
+    std::min((kMaxUDPSize - 4 - 1) / 3, size_t{UINT16_MAX});
 
 // Indicates that the packet is a PixelPusher command.
 static constexpr uint8_t kCommandMagic[]{
@@ -33,14 +33,11 @@ static constexpr uint8_t kCommandMagic[]{
 
 PixelPusherServer::NullReceiver PixelPusherServer::nullReceiver_;
 
-PixelPusherServer::~PixelPusherServer() {
-  end();
-}
+PixelPusherServer::~PixelPusherServer() { end(); }
 
-bool PixelPusherServer::begin(Receiver *recv, uint16_t port,
-                              int controllerNum, int groupNum,
-                              uint16_t vendorId, uint16_t productId,
-                              uint16_t hwRevision,
+bool PixelPusherServer::begin(Receiver *recv, uint16_t port, int controllerNum,
+                              int groupNum, uint16_t vendorId,
+                              uint16_t productId, uint16_t hwRevision,
                               uint32_t flags) {
   if (recv == nullptr) {
     recv = &nullReceiver_;
@@ -52,7 +49,7 @@ bool PixelPusherServer::begin(Receiver *recv, uint16_t port,
                kMaxPixelsPerStrip);
 
   broadcastIP_ = Ethernet.broadcastIP();
-  stripSize_ = 1 + pixelsPerStrip*3;
+  stripSize_ = 1 + pixelsPerStrip * 3;
   lastSeq_ = -1;
   stripFlagsSize_ = std::max(size_t{8}, numStrips);
   stripFlags_ = std::make_unique<uint8_t[]>(stripFlagsSize_);
@@ -73,7 +70,7 @@ bool PixelPusherServer::begin(Receiver *recv, uint16_t port,
 
   ppData1_.stripsAttached = numStrips;
   ppData1_.maxStripsPerPacket =
-      std::min((kMaxUDPSize - 4)/stripSize_, numStrips);
+      std::min((kMaxUDPSize - 4) / stripSize_, numStrips);
   ppData1_.pixelsPerStrip = pixelsPerStrip;
   ppData1_.updatePeriod = 100'000;  // Start at 100ms
   ppData1_.powerTotal = 0;
@@ -103,7 +100,7 @@ bool PixelPusherServer::begin(Receiver *recv, uint16_t port,
 
   // Prepare the circular buffer
   lastUpdateTimes_ = std::make_unique<CircularBuffer<uint32_t>>(
-      (numStrips + ppData1_.maxStripsPerPacket - 1)/
+      (numStrips + ppData1_.maxStripsPerPacket - 1) /
       ppData1_.maxStripsPerPacket);
   printf("k=%u\n", lastUpdateTimes_->capacity());
 
@@ -123,17 +120,13 @@ void PixelPusherServer::end() {
   lastUpdateTimes_ = nullptr;
 }
 
-uint16_t PixelPusherServer::pixelsPort() {
-  return pixelsUDP_.localPort();
-}
+uint16_t PixelPusherServer::pixelsPort() { return pixelsUDP_.localPort(); }
 
 void PixelPusherServer::setControllerNum(int n) {
   ppData1_.controllerOrdinal = n;
 }
 
-void PixelPusherServer::setGroupNum(int n) {
-  ppData1_.groupOrdinal = n;
-}
+void PixelPusherServer::setGroupNum(int n) { ppData1_.groupOrdinal = n; }
 
 void PixelPusherServer::loop() {
   if (!started_) {
@@ -159,8 +152,8 @@ void PixelPusherServer::loop() {
 
   // Packet length == 4 + strips*(1 + width*3)
   // Allow extra strips in this packet, but ignore them, for robustness
-  size_t stripsInPacket = (size - 4)/stripSize_;
-  if (stripsInPacket*stripSize_ != size - 4) {
+  size_t stripsInPacket = (size - 4) / stripSize_;
+  if (stripsInPacket * stripSize_ != size - 4) {
     return;
   }
 
@@ -186,7 +179,7 @@ void PixelPusherServer::loop() {
   recv_->startPixels(ppData1_.stripsAttached == stripsInPacket);
   for (size_t i = 0; i < stripsInPacket; i++) {
     recv_->pixels(*data, data + 1, ppData1_.pixelsPerStrip);
-    data += 1 + uintptr_t{ppData1_.pixelsPerStrip}*3;
+    data += 1 + uintptr_t{ppData1_.pixelsPerStrip} * 3;
   }
   recv_->endPixels();
 
@@ -207,11 +200,11 @@ void PixelPusherServer::loop() {
   uint32_t updateTime = micros() - startTime;
   size_t k = lastUpdateTimes_->capacity();
   if (lastUpdateTimes_->size() < k) {
-    avUpdateTime_ = (avUpdateTime_*lastUpdateTimes_->size() + updateTime)/
+    avUpdateTime_ = (avUpdateTime_ * lastUpdateTimes_->size() + updateTime) /
                     static_cast<float>(lastUpdateTimes_->size() + 1);
   } else {
     avUpdateTime_ = avUpdateTime_ +
-                    static_cast<int32_t>(updateTime - lastUpdateTimes_->get())/
+                    static_cast<int32_t>(updateTime - lastUpdateTimes_->get()) /
                         static_cast<float>(k);
   }
   lastUpdateTimes_->put(updateTime);
@@ -230,12 +223,14 @@ void PixelPusherServer::sendDiscovery() {
   // software aligns the strip flags, a byte array, on a 4-byte
   // boundary, even though this goes against common C struct alignment
   // rules, where byte arrays don't need to be aligned.
-  discoveryUDP_.write(uint8_t{0}); discoveryUDP_.write(uint8_t{0});
+  discoveryUDP_.write(uint8_t{0});
+  discoveryUDP_.write(uint8_t{0});
 
   discoveryUDP_.write(stripFlags_.get(), stripFlagsSize_);
 
   // More mystery padding
-  discoveryUDP_.write(uint8_t{0}); discoveryUDP_.write(uint8_t{0});
+  discoveryUDP_.write(uint8_t{0});
+  discoveryUDP_.write(uint8_t{0});
 
   discoveryUDP_.write(reinterpret_cast<unsigned char *>(&ppData2_),
                       sizeof(ppData2_));

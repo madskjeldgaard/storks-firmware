@@ -8,9 +8,9 @@
 #define OSC_H_
 
 // C++ includes
-#include <cstdint>
-
 #include <Print.h>
+
+#include <cstdint>
 
 // Prints an OSC message, either a bundle or not.
 void printOSC(Print &out, const uint8_t *b, int len);

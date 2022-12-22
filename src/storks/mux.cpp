@@ -2,7 +2,6 @@
 
 namespace storkspace {
 void Mux::setup() {
-
   Serial.println("Setting up multiplexer");
 
   pinMode(add_0, INPUT);
@@ -29,16 +28,15 @@ void Mux::loop() {
 };
 
 int Mux::readMuxDigital(int channel) const {
-
   constexpr int muxChannel[8][3] = {
-      {0, 0, 0}, // channel 0
-      {1, 0, 0}, // channel 1
-      {0, 1, 0}, // channel 2
-      {1, 1, 0}, // channel 3
-      {0, 0, 1}, // channel 4
-      {1, 0, 1}, // channel 5
-      {0, 1, 1}, // channel 6
-      {1, 1, 1}, // channel 7
+      {0, 0, 0},  // channel 0
+      {1, 0, 0},  // channel 1
+      {0, 1, 0},  // channel 2
+      {1, 1, 0},  // channel 3
+      {0, 0, 1},  // channel 4
+      {1, 0, 1},  // channel 5
+      {0, 1, 1},  // channel 6
+      {1, 1, 1},  // channel 7
   };
 
   // loop through the 3 sig
@@ -50,4 +48,4 @@ int Mux::readMuxDigital(int channel) const {
   return digitalRead(Z_pin);
 }
 
-} // namespace storkspace
+}  // namespace storkspace

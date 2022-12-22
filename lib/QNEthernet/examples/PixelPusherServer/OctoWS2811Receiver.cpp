@@ -18,9 +18,8 @@ OctoWS2811Receiver::OctoWS2811Receiver(PixelPusherServer &pp, int numStrips,
       pixelsPerStrip_(std::max(0, pixelsPerStrip)),
       displayMem_{std::make_unique<int[]>(pixelsPerStrip_ * 6)},
       drawingMem_{std::make_unique<int[]>(pixelsPerStrip_ * 6)},
-      leds_{static_cast<uint32_t>(pixelsPerStrip_),
-            displayMem_.get(), drawingMem_.get(),
-            WS2811_GRB | WS2811_800kHz,
+      leds_{static_cast<uint32_t>(pixelsPerStrip_), displayMem_.get(),
+            drawingMem_.get(), WS2811_GRB | WS2811_800kHz,
             static_cast<uint8_t>(numStrips_)} {}
 
 bool OctoWS2811Receiver::begin() {
@@ -36,12 +35,9 @@ bool OctoWS2811Receiver::begin() {
   return true;
 }
 
-uint8_t OctoWS2811Receiver::stripFlags(int stripNum) const {
-  return 0;
-}
+uint8_t OctoWS2811Receiver::stripFlags(int stripNum) const { return 0; }
 
-void OctoWS2811Receiver::handleCommand(int command,
-                                       const unsigned char *data,
+void OctoWS2811Receiver::handleCommand(int command, const unsigned char *data,
                                        int len) {
   switch (command) {
     case PixelPusherServer::Commands::GLOBALBRIGHTNESS_SET:
@@ -94,9 +90,7 @@ void OctoWS2811Receiver::pixels(int stripNum, const unsigned char *pixels,
     }
   } else {
     while (it != end) {
-      leds_.setPixel(it,
-                     scale8(pixels[0], bri),
-                     scale8(pixels[1], bri),
+      leds_.setPixel(it, scale8(pixels[0], bri), scale8(pixels[1], bri),
                      scale8(pixels[2], bri));
       pixels += 3;
       it++;
@@ -104,6 +98,4 @@ void OctoWS2811Receiver::pixels(int stripNum, const unsigned char *pixels,
   }
 }
 
-void OctoWS2811Receiver::endPixels() {
-  leds_.show();
-}
+void OctoWS2811Receiver::endPixels() { leds_.show(); }

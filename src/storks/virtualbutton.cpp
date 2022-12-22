@@ -9,7 +9,6 @@ static std::array<int, numHardwareButtons> hardwareButtonIndices = {
     {0, 7, 6, 5, 4, 3, 2, 1}};
 
 void VirtualButton::loop() {
-
   if (enabled) {
     const auto hardwareIndex = hardwareButtonIndices[index];
     const auto newValue = buttonMux->muxvals[hardwareIndex];
@@ -34,7 +33,6 @@ void VirtualButton::send() const {
 }
 
 void VirtualButton::sendMidi() const {
-
   constexpr auto velocity = 127;
   if (value == 1) {
     usbMIDI.sendNoteOn(midiNoteNum, velocity, midiChannel + 1);
@@ -46,4 +44,4 @@ void VirtualButton::sendMidi() const {
 void VirtualButton::sendOSC() const {
   osc->sendButton(value, midiChannel, layernumber, midiNoteNum);
 }
-} // namespace storkspace
+}  // namespace storkspace

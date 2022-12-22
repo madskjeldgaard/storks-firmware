@@ -8,23 +8,23 @@
 #define LWIPTEENSY_LWIPOPTS_H_
 
 // NO SYS
-#define NO_SYS             1
+#define NO_SYS 1
 // #define NO_SYS_NO_TIMERS   0
-#define LWIP_TIMERS        1
+#define LWIP_TIMERS 1
 #define LWIP_TIMERS_CUSTOM 0
 
 // Core locking
 // #define LWIP_MPU_COMPATIBLE           0
 // #define LWIP_TCPIP_CORE_LOCKING       1
 // #define LWIP_TCPIP_CORE_LOCKING_INPUT 0
-#define SYS_LIGHTWEIGHT_PROT          0
+#define SYS_LIGHTWEIGHT_PROT 0
 
 // Memory options
 // #define MEM_LIBC_MALLOC                        0
 // #define MEMP_MEM_MALLOC                        0
 // #define MEMP_MEM_INIT                          0
-#define MEM_ALIGNMENT                          4
-#define MEM_SIZE                               24000
+#define MEM_ALIGNMENT 4
+#define MEM_SIZE 24000
 // #define MEMP_OVERFLOW_CHECK                    0
 // #define MEMP_SANITY_CHECK                      0
 // #define MEM_OVERFLOW_CHECK                     0
@@ -42,15 +42,15 @@ extern void *ram_heap;
 // #define MEMP_NUM_PBUF                      16
 // #define MEMP_NUM_RAW_PCB                   4
 // Add one to MEMP_NUM_UDP_PCB for mDNS:
-#define MEMP_NUM_UDP_PCB                   8
-#define MEMP_NUM_TCP_PCB                   8
+#define MEMP_NUM_UDP_PCB 8
+#define MEMP_NUM_TCP_PCB 8
 // #define MEMP_NUM_TCP_PCB_LISTEN            8
 // #define MEMP_NUM_TCP_SEG                   16
 // #define MEMP_NUM_ALTCP_PCB                 MEMP_NUM_TCP_PCB
 // #define MEMP_NUM_REASSDATA                 5
 // #define MEMP_NUM_FRAG_PBUF                 15
 // #define MEMP_NUM_ARP_QUEUE                 30
-#define MEMP_NUM_IGMP_GROUP                9
+#define MEMP_NUM_IGMP_GROUP 9
 /* #define LWIP_NUM_SYS_TIMEOUT_INTERNAL                                 \
 //   (LWIP_TCP + IP_REASSEMBLY + LWIP_ARP + (2 * LWIP_DHCP) + LWIP_ACD + \
 //    LWIP_IGMP + LWIP_DNS + PPP_NUM_TIMEOUTS +                          \
@@ -79,7 +79,7 @@ extern void *ram_heap;
 // #define ETHARP_SUPPORT_VLAN           0
 // #define LWIP_VLAN_PCP                 0
 // #define LWIP_ETHERNET                 LWIP_ARP
-#define ETH_PAD_SIZE                  2
+#define ETH_PAD_SIZE 2
 // #define ETHARP_SUPPORT_STATIC_ENTRIES 0
 // #define ETHARP_TABLE_MATCH_NETIF      !LWIP_SINGLE_NETIF
 
@@ -107,7 +107,7 @@ extern void *ram_heap;
 // #define RAW_TTL  IP_DEFAULT_TTL
 
 // DHCP options
-#define LWIP_DHCP                 1
+#define LWIP_DHCP 1
 // #define LWIP_DHCP_DOES_ACD_CHECK  LWIP_DHCP
 // #define LWIP_DHCP_BOOTP_FILE      0
 // #define LWIP_DHCP_GET_NTP_SRV     0
@@ -116,8 +116,8 @@ extern void *ram_heap;
 
 // AUTOIP options
 // Add both for mDNS:
-#define LWIP_AUTOIP                 1
-#define LWIP_DHCP_AUTOIP_COOP       1
+#define LWIP_AUTOIP 1
+#define LWIP_DHCP_AUTOIP_COOP 1
 #define LWIP_DHCP_AUTOIP_COOP_TRIES 1
 
 // ACD options
@@ -134,7 +134,7 @@ extern void *ram_heap;
 #define LWIP_IGMP 1
 
 // DNS options
-#define LWIP_DNS                      1
+#define LWIP_DNS 1
 // #define DNS_TABLE_SIZE                4
 // #define DNS_MAX_NAME_LENGTH           256
 // #define DNS_MAX_SERVERS               2
@@ -162,9 +162,9 @@ extern void *ram_heap;
 // #define TCP_QUEUE_OOSEQ            LWIP_TCP
 // #define LWIP_TCP_SACK_OUT          0
 // #define LWIP_TCP_MAX_SACK_NUM      4
-#define TCP_MSS                    1460
+#define TCP_MSS 1460
 // #define TCP_CALCULATE_EFF_SEND_MSS 1
-#define TCP_SND_BUF                (4 * TCP_MSS)
+#define TCP_SND_BUF (4 * TCP_MSS)
 // #define TCP_SND_QUEUELEN ((4 * (TCP_SND_BUF) + (TCP_MSS - 1))/(TCP_MSS))
 /* #define TCP_SNDLOWAT \
 //   LWIP_MIN(LWIP_MAX(((TCP_SND_BUF)/2), (2 * TCP_MSS) + 1), (TCP_SND_BUF)-1)*/
@@ -199,18 +199,18 @@ extern void *ram_heap;
 #define LWIP_PBUF_REF_T u8_t
 
 // Network Interfaces options
-#define LWIP_SINGLE_NETIF              1
-#define LWIP_NETIF_HOSTNAME            1
+#define LWIP_SINGLE_NETIF 1
+#define LWIP_NETIF_HOSTNAME 1
 // #define LWIP_NETIF_API                 0
-#define LWIP_NETIF_STATUS_CALLBACK     1
+#define LWIP_NETIF_STATUS_CALLBACK 1
 // For mDNS:
 #define LWIP_NETIF_EXT_STATUS_CALLBACK 1
-#define LWIP_NETIF_LINK_CALLBACK       1
+#define LWIP_NETIF_LINK_CALLBACK 1
 // #define LWIP_NETIF_REMOVE_CALLBACK     0
 // #define LWIP_NETIF_HWADDRHINT          0
 // #define LWIP_NETIF_TX_SINGLE_PBUF      0
 // Add one for mDNS:
-#define LWIP_NUM_NETIF_CLIENT_DATA     1
+#define LWIP_NUM_NETIF_CLIENT_DATA 1
 
 // LOOPIF options
 // #define LWIP_HAVE_LOOPIF (LWIP_NETIF_LOOPBACK && !LWIP_SINGLE_NETIF)
@@ -239,13 +239,13 @@ extern void *ram_heap;
 */
 
 // Sequential layer options
-#define LWIP_NETCONN                0
+#define LWIP_NETCONN 0
 // #define LWIP_TCPIP_TIMEOUT          0
 // #define LWIP_NETCONN_SEM_PER_THREAD 0
 // #define LWIP_NETCONN_FULLDUPLEX     0
 
 // Socket options
-#define LWIP_SOCKET                       0
+#define LWIP_SOCKET 0
 // #define LWIP_COMPAT_SOCKETS               1
 // #define LWIP_POSIX_SOCKETS_IO_NAMES       1
 // #define LWIP_SOCKET_OFFSET                0
@@ -258,7 +258,7 @@ extern void *ram_heap;
 // #define LWIP_SO_LINGER                    0
 // #define RECV_BUFSIZE_DEFAULT              INT_MAX
 // #define LWIP_TCP_CLOSE_TIMEOUT_MS_DEFAULT 20000
-#define SO_REUSE                          1
+#define SO_REUSE 1
 // #define SO_REUSE_RXTOALL                  0
 // #define LWIP_FIONREAD_LINUXMODE           0
 // #define LWIP_SOCKET_SELECT                1
@@ -287,15 +287,15 @@ extern void *ram_heap;
 
 // Checksum options
 // #define LWIP_CHECKSUM_CTRL_PER_NETIF 0
-#define CHECKSUM_GEN_IP              0
-#define CHECKSUM_GEN_UDP             0
-#define CHECKSUM_GEN_TCP             0
-#define CHECKSUM_GEN_ICMP            0
+#define CHECKSUM_GEN_IP 0
+#define CHECKSUM_GEN_UDP 0
+#define CHECKSUM_GEN_TCP 0
+#define CHECKSUM_GEN_ICMP 0
 // #define CHECKSUM_GEN_ICMP6           1
-#define CHECKSUM_CHECK_IP            0
-#define CHECKSUM_CHECK_UDP           0
-#define CHECKSUM_CHECK_TCP           0
-#define CHECKSUM_CHECK_ICMP          0
+#define CHECKSUM_CHECK_IP 0
+#define CHECKSUM_CHECK_UDP 0
+#define CHECKSUM_CHECK_TCP 0
+#define CHECKSUM_CHECK_ICMP 0
 // #define CHECKSUM_CHECK_ICMP6         1
 // #define LWIP_CHECKSUM_ON_COPY        0
 
@@ -387,17 +387,17 @@ extern void *ram_heap;
 // #define LWIP_PERF 0
 
 // HTTPD options
-#define LWIP_HTTPD_DYNAMIC_HEADERS   1
-#define LWIP_HTTPD_CUSTOM_FILES      1
+#define LWIP_HTTPD_DYNAMIC_HEADERS 1
+#define LWIP_HTTPD_CUSTOM_FILES 1
 #define LWIP_HTTPD_DYNAMIC_FILE_READ 1
 
 // TFTP options
 #define TFTP_MAX_FILENAME_LEN 512
 
 // SNTP options
-#define SNTP_SERVER_DNS     1
+#define SNTP_SERVER_DNS 1
 #define SNTP_CHECK_RESPONSE 3
-#define SNTP_UPDATE_DELAY   600000
+#define SNTP_UPDATE_DELAY 600000
 
 #include <sys/time.h>
 #include <time.h>
@@ -417,7 +417,7 @@ extern void *ram_heap;
 // MDNS options
 #define LWIP_MDNS_RESPONDER LWIP_UDP
 // #define MDNS_RESP_USENETIF_EXTCALLBACK LWIP_NETIF_EXT_STATUS_CALLBACK
-#define MDNS_MAX_SERVICES   3
+#define MDNS_MAX_SERVICES 3
 // #define MDNS_DEBUG                       LWIP_DBG_OFF
 
 #endif  // LWIPTEENSY_LWIPOPTS_H_

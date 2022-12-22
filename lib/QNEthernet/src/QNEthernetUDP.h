@@ -8,11 +8,11 @@
 #define QNE_ETHERNETUDP_H_
 
 // C++ includes
-#include <cstdint>
-#include <vector>
-
 #include <IPAddress.h>
 #include <Udp.h>
+
+#include <cstdint>
+#include <vector>
 
 #include "lwip/ip_addr.h"
 #include "lwip/opt.h"
@@ -27,9 +27,7 @@ class EthernetUDP final : public UDP {
   ~EthernetUDP();
 
   // Returns the maximum number of UDP sockets.
-  static constexpr int maxSockets() {
-    return MEMP_NUM_UDP_PCB;
-  }
+  static constexpr int maxSockets() { return MEMP_NUM_UDP_PCB; }
 
   // Starts listening on a port. This returns true if successful and false if
   // the port is in use. This calls begin(localPort, false).
@@ -57,8 +55,8 @@ class EthernetUDP final : public UDP {
   // Sends a UDP packet and returns whether the attempt was successful. This
   // combines the functions of beginPacket(), write(), and endPacket(), and
   // causes less overhead.
-  bool send(const IPAddress &ip, uint16_t port,
-            const uint8_t *data, size_t len);
+  bool send(const IPAddress &ip, uint16_t port, const uint8_t *data,
+            size_t len);
 
   // Calls the other send() function after performing a DNS lookup.
   bool send(const char *host, uint16_t port, const uint8_t *data, size_t len);
@@ -97,8 +95,8 @@ class EthernetUDP final : public UDP {
 
   // ip_addr_t versions of transmission functions
   bool beginPacket(const ip_addr_t *ipaddr, uint16_t port);
-  bool send(const ip_addr_t *ipaddr, uint16_t port,
-            const uint8_t *data, size_t len);
+  bool send(const ip_addr_t *ipaddr, uint16_t port, const uint8_t *data,
+            size_t len);
 
   // Checks if there's data still available in the packet.
   bool isAvailable() const;
@@ -111,8 +109,8 @@ class EthernetUDP final : public UDP {
   volatile uint16_t inPort_;
 
   // Packet being processed by the caller
-  std::vector<unsigned char> packet_;    // Holds the packet being read
-  int packetPos_;                        // -1 if not currently reading a packet
+  std::vector<unsigned char> packet_;  // Holds the packet being read
+  int packetPos_;                      // -1 if not currently reading a packet
   ip_addr_t addr_;
   uint16_t port_;
 

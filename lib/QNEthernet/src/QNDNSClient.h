@@ -8,9 +8,9 @@
 #define QNE_DNSCLIENT_H_
 
 // C++ includes
-#include <functional>
-
 #include <IPAddress.h>
+
+#include <functional>
 
 #include "lwip/ip_addr.h"
 #include "lwip/opt.h"
@@ -22,9 +22,7 @@ namespace network {
 class DNSClient final {
  public:
   // Returns the maximum number of DNS servers.
-  static constexpr int maxServers() {
-    return DNS_MAX_SERVERS;
-  }
+  static constexpr int maxServers() { return DNS_MAX_SERVERS; }
 
   // Sets the specified DNS server address. This will return whether setting the
   // address was successful. This will return false if the index is not in the

@@ -9,9 +9,9 @@
 #include "OSC.h"
 
 // C++ includes
-#include <algorithm>
-
 #include <LiteOSCParser.h>
+
+#include <algorithm>
 
 namespace osc = ::qindesign::osc;
 
@@ -83,10 +83,9 @@ void printBundle(Print &out, const uint8_t *b, int len) {
   osc::LiteOSCParser osc;
   int index = 16;
   while (index + 4 <= len) {
-    int32_t size = static_cast<int32_t>(uint32_t{b[index]} << 24 |
-                                        uint32_t{b[index + 1]} << 16 |
-                                        uint32_t{b[index + 2]} << 8 |
-                                        uint32_t{b[index + 3]});
+    int32_t size = static_cast<int32_t>(
+        uint32_t{b[index]} << 24 | uint32_t{b[index + 1]} << 16 |
+        uint32_t{b[index + 2]} << 8 | uint32_t{b[index + 3]});
     index += 4;
     if (index + size > len) {
       break;
@@ -123,15 +122,14 @@ void printOSCData(Print &out, const osc::LiteOSCParser &osc, int index) {
     case 'b': {
       out.print('[');
       const uint8_t *p = osc.getBlob(index);
-      for (int i = osc.getBlobLength(index); --i >= 0; ) {
+      for (int i = osc.getBlobLength(index); --i >= 0;) {
         out.printf(" %02x", *(p++));
       }
       out.print(']');
       break;
     }
     case 't':
-      out.printf("%u.%u",
-                 static_cast<uint32_t>(osc.getTime(index) >> 32),
+      out.printf("%u.%u", static_cast<uint32_t>(osc.getTime(index) >> 32),
                  static_cast<uint32_t>(osc.getTime(index)));
       break;
     case 'd':

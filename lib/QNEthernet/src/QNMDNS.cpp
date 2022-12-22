@@ -46,9 +46,7 @@ static void srv_txt(struct mdns_service *service, void *txt_userdata) {
 
 static bool initialized = false;
 
-MDNSClass::~MDNSClass() {
-  end();
-}
+MDNSClass::~MDNSClass() { end(); }
 
 bool MDNSClass::begin(const String &hostname) {
   netif_ = netif_default;
@@ -95,7 +93,7 @@ bool MDNSClass::addService(const String &type, const String &protocol,
 }
 
 bool MDNSClass::addService(const String &name, const String &type,
-                          const String &protocol, uint16_t port) {
+                           const String &protocol, uint16_t port) {
   return addService(name, type, protocol, port, nullptr);
 }
 
@@ -162,9 +160,7 @@ bool MDNSClass::removeService(const String &name, const String &type,
   return (mdns_resp_del_service(netif_, found) == ERR_OK);
 }
 
-uint32_t MDNSClass::ttl() const {
-  return kTTL;
-}
+uint32_t MDNSClass::ttl() const { return kTTL; }
 
 void MDNSClass::announce() const {
   if (netif_ == nullptr) {

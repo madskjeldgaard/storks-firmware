@@ -10,10 +10,10 @@
 #define OCTOWS2811RECEIVER_H_
 
 // C++ includes
+#include <OctoWS2811.h>
+
 #include <cstdint>
 #include <memory>
-
-#include <OctoWS2811.h>
 
 #include "PixelPusherServer.h"
 #include "Receiver.h"
@@ -35,13 +35,9 @@ class OctoWS2811Receiver : public Receiver {
 
   void end() override {}
 
-  int numStrips() const override {
-    return numStrips_;
-  };
+  int numStrips() const override { return numStrips_; };
 
-  int pixelsPerStrip() const override {
-    return pixelsPerStrip_;
-  }
+  int pixelsPerStrip() const override { return pixelsPerStrip_; }
 
   uint8_t stripFlags(int stripNum) const override;
   void handleCommand(int command, const unsigned char *data, int len) override;

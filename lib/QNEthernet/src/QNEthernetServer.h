@@ -22,14 +22,10 @@ class EthernetServer final : public Server {
   ~EthernetServer();
 
   // Returns the maximum number of TCP listeners.
-  static constexpr int maxListeners() {
-    return MEMP_NUM_TCP_PCB_LISTEN;
-  }
+  static constexpr int maxListeners() { return MEMP_NUM_TCP_PCB_LISTEN; }
 
   // Returns the port.
-  uint16_t port() const {
-    return port_;
-  }
+  uint16_t port() const { return port_; }
 
   // Starts listening on the server port. This calls begin(false).
   void begin() override;

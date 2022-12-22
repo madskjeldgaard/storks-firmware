@@ -13,11 +13,11 @@
 #define PIXELPUSHERSERVER_H_
 
 // C++ includes
-#include <cstdint>
-#include <memory>
-
 #include <QNEthernet.h>
 #include <elapsedMillis.h>
+
+#include <cstdint>
+#include <memory>
 
 #include "CircularBuffer.h"
 #include "Receiver.h"
@@ -27,30 +27,30 @@ using namespace qindesign::network;
 class PixelPusherServer final {
  public:
   enum StripFlags : uint8_t {
-    RGBOW         = (1 << 0),
-    WIDEPIXELS    = (1 << 1),
-    LOGARITHMIC   = (1 << 2),
-    MOTION        = (1 << 3),
+    RGBOW = (1 << 0),
+    WIDEPIXELS = (1 << 1),
+    LOGARITHMIC = (1 << 2),
+    MOTION = (1 << 3),
     NOTIDEMPOTENT = (1 << 4),
-    BRIGHTNESS    = (1 << 5),
-    MONOCHROME    = (1 << 6),
+    BRIGHTNESS = (1 << 5),
+    MONOCHROME = (1 << 6),
   };
 
   // Not a class so we can use the values directly
   enum PusherFlags : uint32_t {
-    PROTECTED             = (1 << 0),
-    FIXEDSIZE             = (1 << 1),
-    GLOBALBRIGHTNESS      = (1 << 2),
-    STRIPBRIGHTNESS       = (1 << 3),
+    PROTECTED = (1 << 0),
+    FIXEDSIZE = (1 << 1),
+    GLOBALBRIGHTNESS = (1 << 2),
+    STRIPBRIGHTNESS = (1 << 3),
     MONOCHROME_NOT_PACKED = (1 << 4),
   };
 
   enum Commands : uint8_t {
-    RESET                = 0x01,
+    RESET = 0x01,
     GLOBALBRIGHTNESS_SET = 0x02,
-    WIFI_CONFIGURE       = 0x03,
-    LED_CONFIGURE        = 0x04,
-    STRIPBRIGHTNESS_SET  = 0x05,
+    WIFI_CONFIGURE = 0x03,
+    LED_CONFIGURE = 0x04,
+    STRIPBRIGHTNESS_SET = 0x05,
   };
 
   enum ColourOrders : uint8_t {
@@ -70,7 +70,7 @@ class PixelPusherServer final {
   };
 
   // The default port on which to receive pixel data.
-  static constexpr uint16_t kDefaultPixelsPort = 5078;//9897;
+  static constexpr uint16_t kDefaultPixelsPort = 5078;  // 9897;
 
   PixelPusherServer() = default;
   ~PixelPusherServer();
@@ -85,10 +85,8 @@ class PixelPusherServer final {
   // This does not call recv->begin().
   //
   // See: kDefaultPixelsPort
-  bool begin(Receiver *recv, uint16_t port,
-             int controllerNum, int groupNum,
-             uint16_t vendorId, uint16_t productId,
-             uint16_t hwRevision,
+  bool begin(Receiver *recv, uint16_t port, int controllerNum, int groupNum,
+             uint16_t vendorId, uint16_t productId, uint16_t hwRevision,
              uint32_t flags);
 
   // Stops listening for pixels.
@@ -106,9 +104,7 @@ class PixelPusherServer final {
   void setGroupNum(int n);
 
   // Tests if the server has been started.
-  operator bool() const {
-    return started_;
-  }
+  operator bool() const { return started_; }
 
  private:
   enum DeviceTypes : uint8_t {
@@ -194,7 +190,7 @@ class PixelPusherServer final {
   elapsedMillis discoveryTimer_;
   uint32_t lastSeq_ = 0;
   std::unique_ptr<CircularBuffer<uint32_t>> lastUpdateTimes_;
-      // Used for averaging the last set of update times
+  // Used for averaging the last set of update times
   float avUpdateTime_;
 
   // Packet data

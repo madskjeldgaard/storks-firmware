@@ -8,7 +8,6 @@ void Layer::setup(
     OSCHost *oschost, StorksDisplay *storksdisplay)
 
 {
-
   osc = oschost;
   layerNumber = layerNum;
   midiChannel = midiChan;
@@ -16,7 +15,6 @@ void Layer::setup(
   // Setup virtual encoders
   for (std::size_t virtencNum = 0; virtencNum < virtualEncoders.size();
        virtencNum++) {
-
     const auto hardwareEncIndex = virtencNum % numHardwareEncoders;
     const auto ccnum = hardwareEncIndex + (layerNum * numHardwareEncoders);
     const auto wrapmode = WrapMode::Clip;
@@ -29,7 +27,6 @@ void Layer::setup(
   // Setup virtual buttons
   for (std::size_t virtbuttonNum = 0; virtbuttonNum < virtualButtons.size();
        virtbuttonNum++) {
-
     const auto hardwareButtonIndex = virtbuttonNum % numHardwareButtons;
     const auto noteNum = 44 + hardwareButtonIndex;
     // Serial.printf("Setting up button with hardware index %i layer %i \n",
@@ -43,15 +40,13 @@ void Layer::setup(
 void Layer::loop() {
   for (std::size_t virtencNum = 0; virtencNum < virtualEncoders.size();
        virtencNum++) {
-
     virtualEncoders[virtencNum].loop();
   };
 
   for (std::size_t virtbuttonNum = 0; virtbuttonNum < virtualButtons.size();
        virtbuttonNum++) {
-
     virtualButtons[virtbuttonNum].loop();
   };
 }
 
-} // namespace storkspace
+}  // namespace storkspace

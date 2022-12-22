@@ -42,8 +42,8 @@ err_t EthernetFrameClass::recvFunc(struct pbuf *p, struct netif *netif) {
   // TODO: Limit vector size
   while (p != nullptr) {
     unsigned char *data = reinterpret_cast<unsigned char *>(p->payload);
-    EthernetFrame.inFrame_.insert(EthernetFrame.inFrame_.end(),
-                                  &data[0], &data[p->len]);
+    EthernetFrame.inFrame_.insert(EthernetFrame.inFrame_.end(), &data[0],
+                                  &data[p->len]);
     p = p->next;
   }
 
@@ -112,9 +112,7 @@ int EthernetFrameClass::peek() {
   return frame_[framePos_];
 }
 
-const unsigned char *EthernetFrameClass::data() const {
-  return frame_.data();
-}
+const unsigned char *EthernetFrameClass::data() const { return frame_.data(); }
 
 // --------------------------------------------------------------------------
 //  Transmission

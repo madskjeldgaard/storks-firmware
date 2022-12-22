@@ -10,14 +10,13 @@
 //       the library worked using this style of API usage.
 
 #include <Arduino.h>
-
 #include <lwip/dns.h>
 #include <lwip/ip_addr.h>
 #include <lwip/netif.h>
 
+#include "OSC.h"
 #include "QNEthernet.h"
 #include "QNMDNS.h"
-#include "OSC.h"
 
 using namespace qindesign::network;
 
@@ -74,8 +73,8 @@ void setup() {
 
   uint8_t mac[6];
   Ethernet.macAddress(mac);
-  Serial.printf("MAC = %02x:%02x:%02x:%02x:%02x:%02x\n",
-                mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
+  Serial.printf("MAC = %02x:%02x:%02x:%02x:%02x:%02x\n", mac[0], mac[1], mac[2],
+                mac[3], mac[4], mac[5]);
 
   Ethernet.begin();
   netif_set_status_callback(netif_default, netif_status_callback);
@@ -95,16 +94,11 @@ void setupOSC() {
   MDNS.addService("_osc", "_udp", 8000);
 }
 
-void setupHTTPClient() {
-}
+void setupHTTPClient() {}
 
-void setupServer() {
-  server.begin();
-}
+void setupServer() { server.begin(); }
 
-void setupServerAvail() {
-  server.begin();
-}
+void setupServerAvail() { server.begin(); }
 
 void setupSendUDP() {
   while (Ethernet.localIP() == INADDR_NONE) {
@@ -138,7 +132,9 @@ void loopHTTPClient() {
   switch (httpClientState) {
     case 0:
       if (Ethernet.localIP() != 0) {
-        if (client.connect("google.com", 80)) {// google.com: 172, 217, 6, 46, example.com: 93, 184, 216, 34
+        if (client.connect("google.com",
+                           80)) {  // google.com: 172, 217, 6, 46, example.com:
+                                   // 93, 184, 216, 34
           Serial.println("connected");
           client.print("GET /search?q=arduino HTTP/1.0\r\n");
           // client.print("GET / HTTP/1.1\r\n");
@@ -158,7 +154,7 @@ void loopHTTPClient() {
       int avail = client.available();
       if (avail > 0) {
         for (int i = 0; i < avail; i++) {
-          Serial.print((char) client.read());
+          Serial.print((char)client.read());
         }
       }
       if (!client.connected()) {
@@ -177,7 +173,8 @@ void loopHTTPClient() {
 EthernetClient clients[8];
 
 void loopServer() {
-  // check for any new client connecting, and say hello (before any incoming data)
+  // check for any new client connecting, and say hello (before any incoming
+  // data)
   EthernetClient newClient = server.accept();
   if (newClient) {
     for (int i = 0; i < 8; i++) {

@@ -7,10 +7,10 @@
 #include "QNEthernet.h"
 
 // C++ includes
-#include <algorithm>
-
 #include <Entropy.h>
 #include <EventResponder.h>
+
+#include <algorithm>
 
 #include "QNDNSClient.h"
 #include "lwip/dhcp.h"
@@ -83,9 +83,7 @@ EthernetClass::EthernetClass(const uint8_t mac[6]) {
   attachLoopToYield();
 }
 
-EthernetClass::~EthernetClass() {
-  end();
-}
+EthernetClass::~EthernetClass() { end(); }
 
 void EthernetClass::macAddress(uint8_t mac[6]) const {
   std::copy_n(mac_, 6, mac);
@@ -110,8 +108,7 @@ void EthernetClass::setMACAddress(const uint8_t mac[6]) {
   dhcp_release_and_stop(netif_);  // Stop DHCP in all cases
   netif_set_down(netif_);
 
-  begin(netif_ip4_addr(netif_),
-        netif_ip4_netmask(netif_),
+  begin(netif_ip4_addr(netif_), netif_ip4_netmask(netif_),
         netif_ip4_gw(netif_));
 }
 
@@ -131,8 +128,7 @@ bool EthernetClass::begin() {
   return begin(INADDR_NONE, INADDR_NONE, INADDR_NONE);
 }
 
-bool EthernetClass::begin(const IPAddress &ip,
-                          const IPAddress &mask,
+bool EthernetClass::begin(const IPAddress &ip, const IPAddress &mask,
                           const IPAddress &gateway) {
   // NOTE: The uint32_t cast doesn't currently work on const IPAddress
   ip4_addr_t ipaddr{get_uint32(ip)};
@@ -141,8 +137,7 @@ bool EthernetClass::begin(const IPAddress &ip,
 
   if (netif_ != nullptr) {
     // Stop any running DHCP client if we don't need one
-    if (!ip4_addr_isany_val(ipaddr) ||
-        !ip4_addr_isany_val(netmask) ||
+    if (!ip4_addr_isany_val(ipaddr) || !ip4_addr_isany_val(netmask) ||
         !ip4_addr_isany_val(gw)) {
       dhcp_release_and_stop(netif_);
     }
@@ -152,8 +147,7 @@ bool EthernetClass::begin(const IPAddress &ip,
   return begin(&ipaddr, &netmask, &gw);
 }
 
-bool EthernetClass::begin(const ip4_addr_t *ipaddr,
-                          const ip4_addr_t *netmask,
+bool EthernetClass::begin(const ip4_addr_t *ipaddr, const ip4_addr_t *netmask,
                           const ip4_addr_t *gw) {
   // Initialize Ethernet, set up the callback, and set the netif to UP
   netif_ = enet_netif();
@@ -171,8 +165,7 @@ bool EthernetClass::begin(const ip4_addr_t *ipaddr,
   // If this is using a manual configuration then inform the network,
   // otherwise start DHCP
   bool retval = true;
-  if (!ip4_addr_isany(ipaddr) ||
-      !ip4_addr_isany(netmask) ||
+  if (!ip4_addr_isany(ipaddr) || !ip4_addr_isany(netmask) ||
       !ip4_addr_isany(gw)) {
     dhcp_inform(netif_);
   } else {
@@ -266,9 +259,7 @@ bool EthernetClass::linkState() const {
   return netif_is_link_up(netif_);
 }
 
-int EthernetClass::linkSpeed() const {
-  return enet_link_speed();
-}
+int EthernetClass::linkSpeed() const { return enet_link_speed(); }
 
 bool EthernetClass::linkIsFullDuplex() const {
   return enet_link_is_full_duplex();
@@ -388,9 +379,7 @@ String EthernetClass::hostname() const {
 #endif
 }
 
-EthernetClass::operator bool() const {
-  return (netif_ != nullptr);
-}
+EthernetClass::operator bool() const { return (netif_ != nullptr); }
 
 }  // namespace network
 }  // namespace qindesign

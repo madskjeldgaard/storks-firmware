@@ -38,5 +38,5 @@ uint32_t get_uint32(const IPAddress &ip) {
   return static_cast<uint32_t>(const_cast<IPAddress &>(ip));
 }
 
-}  // network
-}  // qindesign
+}  // namespace network
+}  // namespace qindesign

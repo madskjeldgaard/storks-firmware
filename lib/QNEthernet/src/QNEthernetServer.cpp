@@ -17,15 +17,11 @@ namespace qindesign {
 namespace network {
 
 EthernetServer::EthernetServer(uint16_t port)
-    : port_(port),
-      listening_(false) {}
+    : port_(port), listening_(false) {}
 
-EthernetServer::~EthernetServer() {
-}
+EthernetServer::~EthernetServer() {}
 
-void EthernetServer::begin() {
-  begin(false);
-}
+void EthernetServer::begin() { begin(false); }
 
 void EthernetServer::begin(bool reuse) {
   listening_ = internal::ConnectionManager::instance().listen(port_, reuse);

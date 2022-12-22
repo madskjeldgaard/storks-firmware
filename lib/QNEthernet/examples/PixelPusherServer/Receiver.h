@@ -39,8 +39,7 @@ class Receiver {
   virtual uint8_t stripFlags(int stripNum) const = 0;
 
   // Handles a PixelPusher command.
-  virtual void handleCommand(int command,
-                             const unsigned char *data, int len) {}
+  virtual void handleCommand(int command, const unsigned char *data, int len) {}
 
   // Starts receiving pixels from a packet. The `complete` paameter
   // indicates whether the complete set of pixels will be included in

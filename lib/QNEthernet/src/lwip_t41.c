@@ -11,10 +11,9 @@
 #include "lwip_t41.h"
 
 // C includes
-#include <string.h>
-
 #include <core_pins.h>
 #include <pgmspace.h>
+#include <string.h>
 
 #include "lwip/err.h"
 #include "lwip/etharp.h"
@@ -30,8 +29,8 @@
 
 #define CLRSET(reg, clear, set) ((reg) = ((reg) & ~(clear)) | (set))
 #define RMII_PAD_INPUT_PULLDOWN 0x30E9
-#define RMII_PAD_INPUT_PULLUP   0xB0E9
-#define RMII_PAD_CLOCK          0x0031
+#define RMII_PAD_INPUT_PULLUP 0xB0E9
+#define RMII_PAD_CLOCK 0x0031
 
 #define RX_SIZE 5
 #define TX_SIZE 5
@@ -40,65 +39,66 @@
 
 // Defines the control and status region of the receive buffer descriptor.
 typedef enum _enet_rx_bd_control_status {
-  kEnetRxBdEmpty           = 0x8000U,  // Empty bit
-  kEnetRxBdRxSoftOwner1    = 0x4000U,  // Receive software ownership
-  kEnetRxBdWrap            = 0x2000U,  // Update buffer descriptor
-  kEnetRxBdRxSoftOwner2    = 0x1000U,  // Receive software ownership
-  kEnetRxBdLast            = 0x0800U,  // Last BD in the frame (L bit)
-  kEnetRxBdMiss            = 0x0100U,  // In promiscuous mode; needs L
-  kEnetRxBdBroadcast       = 0x0080U,  // Broadcast
-  kEnetRxBdMulticast       = 0x0040U,  // Multicast
+  kEnetRxBdEmpty = 0x8000U,            // Empty bit
+  kEnetRxBdRxSoftOwner1 = 0x4000U,     // Receive software ownership
+  kEnetRxBdWrap = 0x2000U,             // Update buffer descriptor
+  kEnetRxBdRxSoftOwner2 = 0x1000U,     // Receive software ownership
+  kEnetRxBdLast = 0x0800U,             // Last BD in the frame (L bit)
+  kEnetRxBdMiss = 0x0100U,             // In promiscuous mode; needs L
+  kEnetRxBdBroadcast = 0x0080U,        // Broadcast
+  kEnetRxBdMulticast = 0x0040U,        // Multicast
   kEnetRxBdLengthViolation = 0x0020U,  // Receive length violation; needs L
-  kEnetRxBdNonOctet        = 0x0010U,  // Receive non-octet aligned frame; needs L
-  kEnetRxBdCrc             = 0x0004U,  // Receive CRC or frame error; needs L
-  kEnetRxBdOverrun         = 0x0002U,  // Receive FIFO overrun; needs L
-  kEnetRxBdTrunc           = 0x0001U   // Frame is truncated
+  kEnetRxBdNonOctet = 0x0010U,  // Receive non-octet aligned frame; needs L
+  kEnetRxBdCrc = 0x0004U,       // Receive CRC or frame error; needs L
+  kEnetRxBdOverrun = 0x0002U,   // Receive FIFO overrun; needs L
+  kEnetRxBdTrunc = 0x0001U      // Frame is truncated
 } enet_rx_bd_control_status_t;
 
 // Defines the control extended region1 of the receive buffer descriptor.
 typedef enum _enet_rx_bd_control_extend0 {
   kEnetRxBdIpHeaderChecksumErr = 0x0020U,  // IP header checksum error; needs L
   kEnetRxBdProtocolChecksumErr = 0x0010U,  // Protocol checksum error; needs L
-  kEnetRxBdVlan                = 0x0004U,  // VLAN; needs L
-  kEnetRxBdIpv6                = 0x0002U,  // Ipv6 frame; needs L
-  kEnetRxBdIpv4Fragment        = 0x0001U,  // Ipv4 fragment; needs L
+  kEnetRxBdVlan = 0x0004U,                 // VLAN; needs L
+  kEnetRxBdIpv6 = 0x0002U,                 // Ipv6 frame; needs L
+  kEnetRxBdIpv4Fragment = 0x0001U,         // Ipv4 fragment; needs L
 } enet_rx_bd_control_extend0_t;
 
 // Defines the control extended region2 of the receive buffer descriptor.
 typedef enum _enet_rx_bd_control_extend1 {
-  kEnetRxBdMacErr    = 0x8000U,  // MAC error; needs L
-  kEnetRxBdPhyErr    = 0x0400U,  // PHY error; needs L
+  kEnetRxBdMacErr = 0x8000U,     // MAC error; needs L
+  kEnetRxBdPhyErr = 0x0400U,     // PHY error; needs L
   kEnetRxBdCollision = 0x0200U,  // Collision; needs L
-  kEnetRxBdUnicast   = 0x0100U,  // Unicast frame; valid even if L is not set
+  kEnetRxBdUnicast = 0x0100U,    // Unicast frame; valid even if L is not set
   kEnetRxBdInterrupt = 0x0080U,  // Generate RXB/RXF interrupt
 } enet_rx_bd_control_extend1_t;
 
 // Defines the control status of the transmit buffer descriptor.
 typedef enum _enet_tx_bd_control_status {
-  kEnetTxBdReady        = 0x8000U,  // Ready bit
+  kEnetTxBdReady = 0x8000U,         // Ready bit
   kEnetTxBdTxSoftOwner1 = 0x4000U,  // Transmit software ownership
-  kEnetTxBdWrap         = 0x2000U,  // Wrap buffer descriptor
+  kEnetTxBdWrap = 0x2000U,          // Wrap buffer descriptor
   kEnetTxBdTxSoftOwner2 = 0x1000U,  // Transmit software ownership
-  kEnetTxBdLast         = 0x0800U,  // Last BD in the frame (L bit)
-  kEnetTxBdTransmitCrc  = 0x0400U,  // Transmit CRC; needs L
+  kEnetTxBdLast = 0x0800U,          // Last BD in the frame (L bit)
+  kEnetTxBdTransmitCrc = 0x0400U,   // Transmit CRC; needs L
 } enet_tx_bd_control_status_t;
 
 // Defines the control extended region1 of the transmit buffer descriptor.
 typedef enum _enet_tx_bd_control_extend0 {
-  kEnetTxBdTxErr              = 0x8000U,  // Transmit error; needs L
-  kEnetTxBdTxUnderflowErr     = 0x2000U,  // Underflow error; needs L
+  kEnetTxBdTxErr = 0x8000U,               // Transmit error; needs L
+  kEnetTxBdTxUnderflowErr = 0x2000U,      // Underflow error; needs L
   kEnetTxBdExcessCollisionErr = 0x1000U,  // Excess collision error; needs L
-  kEnetTxBdTxFrameErr         = 0x0800U,  // Frame with error; needs L
-  kEnetTxBdLatecollisionErr   = 0x0400U,  // Late collision error; needs L
-  kEnetTxBdOverflowErr        = 0x0200U,  // Overflow error; needs L
-  kEnetTxTimestampErr         = 0x0100U,  // Timestamp error; needs L
+  kEnetTxBdTxFrameErr = 0x0800U,          // Frame with error; needs L
+  kEnetTxBdLatecollisionErr = 0x0400U,    // Late collision error; needs L
+  kEnetTxBdOverflowErr = 0x0200U,         // Overflow error; needs L
+  kEnetTxTimestampErr = 0x0100U,          // Timestamp error; needs L
 } enet_tx_bd_control_extend0_t;
 
 // Defines the control extended region2 of the transmit buffer descriptor.
 typedef enum _enet_tx_bd_control_extend1 {
-  kEnetTxBdTxInterrupt   = 0x4000U,  // Transmit interrupt; all BDs
-  kEnetTxBdTimestamp     = 0x2000U,  // Transmit timestamp flag; all BDs
-  kEnetTxBdProtChecksum  = 0x1000U,  // Insert protocol specific checksum; all BDs
+  kEnetTxBdTxInterrupt = 0x4000U,  // Transmit interrupt; all BDs
+  kEnetTxBdTimestamp = 0x2000U,    // Transmit timestamp flag; all BDs
+  kEnetTxBdProtChecksum =
+      0x1000U,  // Insert protocol specific checksum; all BDs
   kEnetTxBdIpHdrChecksum = 0x0800U,  // Insert IP header checksum; all BDs
 } enet_tx_bd_control_extend1_t;
 
@@ -193,9 +193,11 @@ static void t41_low_level_init() {
     // Wait for PLL lock
   }
   CCM_ANALOG_PLL_ENET_CLR = CCM_ANALOG_PLL_ENET_BYPASS;
-  // printf("PLL6 = %08" PRIX32 "h (should be 80202001h)\n", CCM_ANALOG_PLL_ENET);
+  // printf("PLL6 = %08" PRIX32 "h (should be 80202001h)\n",
+  // CCM_ANALOG_PLL_ENET);
 
-  // Configure REFCLK to be driven as output by PLL6, pg 329 (Rev. 2, 326 Rev. 1)
+  // Configure REFCLK to be driven as output by PLL6, pg 329 (Rev. 2, 326 Rev.
+  // 1)
   CLRSET(IOMUXC_GPR_GPR1,
          IOMUXC_GPR_GPR1_ENET1_CLK_SEL | IOMUXC_GPR_GPR1_ENET_IPG_CLK_S_EN,
          IOMUXC_GPR_GPR1_ENET1_TX_CLK_DIR);
@@ -203,35 +205,53 @@ static void t41_low_level_init() {
   // Configure pins
   IOMUXC_SW_MUX_CTL_PAD_GPIO_B0_14 = 5;  // Reset    B0_14 Alt5 GPIO7.15
   IOMUXC_SW_MUX_CTL_PAD_GPIO_B0_15 = 5;  // Power    B0_15 Alt5 GPIO7.14
-  GPIO7_GDIR |= (1<<14) | (1<<15);
-  GPIO7_DR_SET = (1<<15);    // Power on
-  GPIO7_DR_CLEAR = (1<<14);  // Reset PHY chip
+  GPIO7_GDIR |= (1 << 14) | (1 << 15);
+  GPIO7_DR_SET = (1 << 15);                                    // Power on
+  GPIO7_DR_CLEAR = (1 << 14);                                  // Reset PHY chip
   IOMUXC_SW_PAD_CTL_PAD_GPIO_B1_04 = RMII_PAD_INPUT_PULLDOWN;  // PhyAdd[0] = 0
   IOMUXC_SW_PAD_CTL_PAD_GPIO_B1_06 = RMII_PAD_INPUT_PULLDOWN;  // PhyAdd[1] = 1
-  IOMUXC_SW_PAD_CTL_PAD_GPIO_B1_05 = RMII_PAD_INPUT_PULLUP;    // Master/Slave = slave mode
-  IOMUXC_SW_PAD_CTL_PAD_GPIO_B1_11 = RMII_PAD_INPUT_PULLDOWN;  // Auto MDIX Enable
+  IOMUXC_SW_PAD_CTL_PAD_GPIO_B1_05 =
+      RMII_PAD_INPUT_PULLUP;  // Master/Slave = slave mode
+  IOMUXC_SW_PAD_CTL_PAD_GPIO_B1_11 =
+      RMII_PAD_INPUT_PULLDOWN;  // Auto MDIX Enable
   IOMUXC_SW_PAD_CTL_PAD_GPIO_B1_07 = RMII_PAD_INPUT_PULLUP;
   IOMUXC_SW_PAD_CTL_PAD_GPIO_B1_08 = RMII_PAD_INPUT_PULLUP;
   IOMUXC_SW_PAD_CTL_PAD_GPIO_B1_09 = RMII_PAD_INPUT_PULLUP;
   IOMUXC_SW_PAD_CTL_PAD_GPIO_B1_10 = RMII_PAD_CLOCK;
-  IOMUXC_SW_MUX_CTL_PAD_GPIO_B1_05 = 3;  // RXD1    B1_05 Alt3, pg 529 (Rev. 2, 525 Rev. 1)
-  IOMUXC_SW_MUX_CTL_PAD_GPIO_B1_04 = 3;  // RXD0    B1_04 Alt3, pg 528 (Rev. 2, 524 Rev. 1)
-  IOMUXC_SW_MUX_CTL_PAD_GPIO_B1_10 = 6 | 0x10;  // REFCLK    B1_10 Alt6, pg 534 (Rev. 2, 530 Rev. 1)
-  IOMUXC_SW_MUX_CTL_PAD_GPIO_B1_11 = 3;  // RXER    B1_11 Alt3, pg 535 (Rev. 2, 531 Rev. 1)
-  IOMUXC_SW_MUX_CTL_PAD_GPIO_B1_06 = 3;  // RXEN    B1_06 Alt3, pg 530 (Rev. 2, 526 Rev. 1)
-  IOMUXC_SW_MUX_CTL_PAD_GPIO_B1_09 = 3;  // TXEN    B1_09 Alt3, pg 533 (Rev. 2, 529 Rev. 1)
-  IOMUXC_SW_MUX_CTL_PAD_GPIO_B1_07 = 3;  // TXD0    B1_07 Alt3, pg 531 (Rev. 2, 527 Rev. 1)
-  IOMUXC_SW_MUX_CTL_PAD_GPIO_B1_08 = 3;  // TXD1    B1_08 Alt3, pg 532 (Rev. 2, 528 Rev. 1)
-  IOMUXC_SW_MUX_CTL_PAD_GPIO_B1_15 = 0;  // MDIO    B1_15 Alt0, pg 539 (Rev. 2, 535 Rev. 1)
-  IOMUXC_SW_MUX_CTL_PAD_GPIO_B1_14 = 0;  // MDC     B1_14 Alt0, pg 538 (Rev. 2, 534 Rev. 1)
-  IOMUXC_ENET_MDIO_SELECT_INPUT = 2;     // GPIO_B1_15_ALT0, pg 796 (Rev. 2, 792 Rev. 1)
-  IOMUXC_ENET0_RXDATA_SELECT_INPUT = 1;  // GPIO_B1_04_ALT3, pg 796 (Rev. 2, 792 Rev. 1)
-  IOMUXC_ENET1_RXDATA_SELECT_INPUT = 1;  // GPIO_B1_05_ALT3, pg 797 (Rev. 2, 793 Rev. 1)
-  IOMUXC_ENET_RXEN_SELECT_INPUT = 1;     // GPIO_B1_06_ALT3, pg 798 (Rev. 2, 794 Rev. 1)
-  IOMUXC_ENET_RXERR_SELECT_INPUT = 1;    // GPIO_B1_11_ALT3, pg 799 (Rev. 2, 795 Rev. 1)
-  IOMUXC_ENET_IPG_CLK_RMII_SELECT_INPUT = 1;  // GPIO_B1_10_ALT6, pg 795 (Rev. 2, 791 Rev. 1)
+  IOMUXC_SW_MUX_CTL_PAD_GPIO_B1_05 =
+      3;  // RXD1    B1_05 Alt3, pg 529 (Rev. 2, 525 Rev. 1)
+  IOMUXC_SW_MUX_CTL_PAD_GPIO_B1_04 =
+      3;  // RXD0    B1_04 Alt3, pg 528 (Rev. 2, 524 Rev. 1)
+  IOMUXC_SW_MUX_CTL_PAD_GPIO_B1_10 =
+      6 | 0x10;  // REFCLK    B1_10 Alt6, pg 534 (Rev. 2, 530 Rev. 1)
+  IOMUXC_SW_MUX_CTL_PAD_GPIO_B1_11 =
+      3;  // RXER    B1_11 Alt3, pg 535 (Rev. 2, 531 Rev. 1)
+  IOMUXC_SW_MUX_CTL_PAD_GPIO_B1_06 =
+      3;  // RXEN    B1_06 Alt3, pg 530 (Rev. 2, 526 Rev. 1)
+  IOMUXC_SW_MUX_CTL_PAD_GPIO_B1_09 =
+      3;  // TXEN    B1_09 Alt3, pg 533 (Rev. 2, 529 Rev. 1)
+  IOMUXC_SW_MUX_CTL_PAD_GPIO_B1_07 =
+      3;  // TXD0    B1_07 Alt3, pg 531 (Rev. 2, 527 Rev. 1)
+  IOMUXC_SW_MUX_CTL_PAD_GPIO_B1_08 =
+      3;  // TXD1    B1_08 Alt3, pg 532 (Rev. 2, 528 Rev. 1)
+  IOMUXC_SW_MUX_CTL_PAD_GPIO_B1_15 =
+      0;  // MDIO    B1_15 Alt0, pg 539 (Rev. 2, 535 Rev. 1)
+  IOMUXC_SW_MUX_CTL_PAD_GPIO_B1_14 =
+      0;  // MDC     B1_14 Alt0, pg 538 (Rev. 2, 534 Rev. 1)
+  IOMUXC_ENET_MDIO_SELECT_INPUT =
+      2;  // GPIO_B1_15_ALT0, pg 796 (Rev. 2, 792 Rev. 1)
+  IOMUXC_ENET0_RXDATA_SELECT_INPUT =
+      1;  // GPIO_B1_04_ALT3, pg 796 (Rev. 2, 792 Rev. 1)
+  IOMUXC_ENET1_RXDATA_SELECT_INPUT =
+      1;  // GPIO_B1_05_ALT3, pg 797 (Rev. 2, 793 Rev. 1)
+  IOMUXC_ENET_RXEN_SELECT_INPUT =
+      1;  // GPIO_B1_06_ALT3, pg 798 (Rev. 2, 794 Rev. 1)
+  IOMUXC_ENET_RXERR_SELECT_INPUT =
+      1;  // GPIO_B1_11_ALT3, pg 799 (Rev. 2, 795 Rev. 1)
+  IOMUXC_ENET_IPG_CLK_RMII_SELECT_INPUT =
+      1;  // GPIO_B1_10_ALT6, pg 795 (Rev. 2, 791 Rev. 1)
   delayMicroseconds(2);
-  GPIO7_DR_SET = (1<<14);  // Start PHY chip
+  GPIO7_DR_SET = (1 << 14);  // Start PHY chip
   ENET_MSCR = ENET_MSCR_MII_SPEED(9);
   delayMicroseconds(5);
 
@@ -251,63 +271,59 @@ static void t41_low_level_init() {
   // The last buffer descriptor should be set with the wrap flag
   rx_ring[RX_SIZE - 1].status |= kEnetRxBdWrap;
 
-  for (int i=0; i < TX_SIZE; i++) {
+  for (int i = 0; i < TX_SIZE; i++) {
     tx_ring[i].buffer = &txbufs[i * BUF_SIZE];
     tx_ring[i].status = kEnetTxBdTransmitCrc;
-    tx_ring[i].extend1 = kEnetTxBdTxInterrupt |
-                         kEnetTxBdProtChecksum |
-                         kEnetTxBdIpHdrChecksum;
+    tx_ring[i].extend1 =
+        kEnetTxBdTxInterrupt | kEnetTxBdProtChecksum | kEnetTxBdIpHdrChecksum;
   }
   tx_ring[TX_SIZE - 1].status |= kEnetTxBdWrap;
 
   ENET_EIMR = 0;  // This also deasserts all interrupts
 
-  ENET_RCR = ENET_RCR_NLC |     // Payload length is checked
+  ENET_RCR = ENET_RCR_NLC |  // Payload length is checked
              ENET_RCR_MAX_FL(MAX_FRAME_LEN) |
              ENET_RCR_CFEN |    // Discard non-pause MAC control frames
              ENET_RCR_CRCFWD |  // CRC is stripped (ignored if PADEN)
              ENET_RCR_PADEN |   // Padding is removed
-             ENET_RCR_RMII_MODE |
-             ENET_RCR_FCE |     // Flow control enable
+             ENET_RCR_RMII_MODE | ENET_RCR_FCE |  // Flow control enable
 #ifdef QNETHERNET_PROMISCUOUS_MODE
-             ENET_RCR_PROM |    // Promiscuous mode
-#endif  // QNETHERNET_PROMISCUOUS_MODE
+             ENET_RCR_PROM |  // Promiscuous mode
+#endif                        // QNETHERNET_PROMISCUOUS_MODE
              ENET_RCR_MII_MODE;
   ENET_TCR = ENET_TCR_ADDINS |  // Overwrite with programmed MAC address
              ENET_TCR_ADDSEL(0) |
              // ENET_TCR_RFC_PAUSE |
              // ENET_TCR_TFC_PAUSE |
-             ENET_TCR_FDEN;     // Enable full-duplex
+             ENET_TCR_FDEN;  // Enable full-duplex
 
   ENET_TACC = 0
 #if CHECKSUM_GEN_UDP == 0 || CHECKSUM_GEN_TCP == 0 || CHECKSUM_GEN_ICMP == 0
-      | ENET_TACC_PROCHK  // Insert protocol checksum
+              | ENET_TACC_PROCHK  // Insert protocol checksum
 #endif
 #if CHECKSUM_GEN_IP == 0
-      | ENET_TACC_IPCHK  // Insert IP header checksum
+              | ENET_TACC_IPCHK  // Insert IP header checksum
 #endif
 #if ETH_PAD_SIZE == 2
-      | ENET_TACC_SHIFT16
+              | ENET_TACC_SHIFT16
 #endif
       ;
 
   ENET_RACC = 0
 #if ETH_PAD_SIZE == 2
-      | ENET_RACC_SHIFT16
+              | ENET_RACC_SHIFT16
 #endif
-      | ENET_RACC_LINEDIS  // Discard bad frames
-#if CHECKSUM_CHECK_UDP == 0 && \
-    CHECKSUM_CHECK_TCP == 0 && \
+              | ENET_RACC_LINEDIS  // Discard bad frames
+#if CHECKSUM_CHECK_UDP == 0 && CHECKSUM_CHECK_TCP == 0 && \
     CHECKSUM_CHECK_ICMP == 0
-      | ENET_RACC_PRODIS  // Discard frames with incorrect protocol checksum
-                          // Requires RSFL == 0
+              | ENET_RACC_PRODIS  // Discard frames with incorrect protocol
+                                  // checksum Requires RSFL == 0
 #endif
 #if CHECKSUM_CHECK_IP == 0
-      | ENET_RACC_IPDIS  // Discard frames with incorrect IPv4 header checksum
-                         // Requires RSFL == 0
+              | ENET_RACC_IPDIS  // Discard frames with incorrect IPv4 header
+                                 // checksum Requires RSFL == 0
 #endif
-      | ENET_RACC_PADREM
-      ;
+              | ENET_RACC_PADREM;
 
   ENET_TFWR = ENET_TFWR_STRFWD;
   ENET_RSFL = 0;
@@ -348,11 +364,8 @@ static void t41_low_level_init() {
 }
 
 static struct pbuf *t41_low_level_input(volatile enetbufferdesc_t *bdPtr) {
-  const u16_t err_mask = kEnetRxBdTrunc |
-                         kEnetRxBdOverrun |
-                         kEnetRxBdCrc |
-                         kEnetRxBdNonOctet |
-                         kEnetRxBdLengthViolation;
+  const u16_t err_mask = kEnetRxBdTrunc | kEnetRxBdOverrun | kEnetRxBdCrc |
+                         kEnetRxBdNonOctet | kEnetRxBdLengthViolation;
 
   struct pbuf *p = NULL;
 
@@ -410,10 +423,8 @@ static inline volatile enetbufferdesc_t *get_bufdesc() {
 static inline void update_bufdesc(volatile enetbufferdesc_t *bdPtr,
                                   uint16_t len) {
   bdPtr->length = len;
-  bdPtr->status = (bdPtr->status & kEnetTxBdWrap) |
-                  kEnetTxBdTransmitCrc |
-                  kEnetTxBdLast |
-                  kEnetTxBdReady;
+  bdPtr->status = (bdPtr->status & kEnetTxBdWrap) | kEnetTxBdTransmitCrc |
+                  kEnetTxBdLast | kEnetTxBdReady;
 
   ENET_TDAR = ENET_TDAR_TDAR;
 
@@ -436,10 +447,8 @@ static err_t t41_netif_init(struct netif *netif) {
   netif->linkoutput = t41_low_level_output;
   netif->output = etharp_output;
   netif->mtu = MTU;
-  netif->flags = NETIF_FLAG_BROADCAST |
-                 NETIF_FLAG_ETHARP |
-                 NETIF_FLAG_ETHERNET |
-                 NETIF_FLAG_IGMP;
+  netif->flags = NETIF_FLAG_BROADCAST | NETIF_FLAG_ETHARP |
+                 NETIF_FLAG_ETHERNET | NETIF_FLAG_IGMP;
 
   SMEMCPY(netif->hwaddr, mac, ETH_HWADDR_LEN);
   netif->hwaddr_len = ETH_HWADDR_LEN;
@@ -542,10 +551,8 @@ static bool isNetifAdded = false;
 
 NETIF_DECLARE_EXT_CALLBACK(netif_callback);
 
-void enet_init(const uint8_t macaddr[ETH_HWADDR_LEN],
-               const ip4_addr_t *ipaddr,
-               const ip4_addr_t *netmask,
-               const ip4_addr_t *gw,
+void enet_init(const uint8_t macaddr[ETH_HWADDR_LEN], const ip4_addr_t *ipaddr,
+               const ip4_addr_t *netmask, const ip4_addr_t *gw,
                netif_ext_callback_fn callback) {
   // Only execute the following code once
   if (isFirstInit) {
@@ -582,8 +589,8 @@ void enet_init(const uint8_t macaddr[ETH_HWADDR_LEN],
     netif_set_addr(&t41_netif, ipaddr, netmask, gw);
   } else {
     netif_add_ext_callback(&netif_callback, callback);
-    netif_add(&t41_netif, ipaddr, netmask, gw,
-              NULL, t41_netif_init, ethernet_input);
+    netif_add(&t41_netif, ipaddr, netmask, gw, NULL, t41_netif_init,
+              ethernet_input);
     netif_set_default(&t41_netif);
     isNetifAdded = true;
   }
@@ -616,8 +623,8 @@ void enet_deinit() {
   ENET_ECR &= ~ENET_ECR_ETHEREN;
 
   // Power down the PHY
-  GPIO7_GDIR |= (1<<15);
-  GPIO7_DR_CLEAR = (1<<15);
+  GPIO7_GDIR |= (1 << 15);
+  GPIO7_DR_CLEAR = (1 << 15);
 
   // Stop the PLL
   CCM_ANALOG_PLL_ENET = CCM_ANALOG_PLL_ENET_POWERDOWN;
@@ -660,13 +667,9 @@ void enet_poll() {
   check_link_status();
 }
 
-int enet_link_speed() {
-  return linkSpeed10Not100 ? 10 : 100;
-}
+int enet_link_speed() { return linkSpeed10Not100 ? 10 : 100; }
 
-bool enet_link_is_full_duplex() {
-  return linkIsFullDuplex;
-}
+bool enet_link_is_full_duplex() { return linkIsFullDuplex; }
 
 bool enet_output_frame(const uint8_t *frame, size_t len) {
   if (!isInitialized) {

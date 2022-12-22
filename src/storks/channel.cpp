@@ -9,8 +9,8 @@ void Channel::setup(
   osc = oschost;
 
   for (std::size_t layerNum = 0; layerNum < layers.size(); layerNum++) {
-    layers[layerNum].setup(hardwareEncoders, buttonMux, midichan, layerNum,
-                           osc, storksdisplay);
+    layers[layerNum].setup(hardwareEncoders, buttonMux, midichan, layerNum, osc,
+                           storksdisplay);
   }
 
   // Enable first layer
@@ -25,4 +25,4 @@ void Channel::loop() {
   }
 };
 
-} // namespace storkspace
+}  // namespace storkspace

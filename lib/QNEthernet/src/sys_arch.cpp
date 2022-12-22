@@ -8,11 +8,11 @@
 #include <unistd.h>
 
 // C++ includes
-#include <cstdint>
-#include <cstdio>
-
 #include <Print.h>
 #include <pgmspace.h>
+
+#include <cstdint>
+#include <cstdio>
 
 extern "C" {
 #include "lwip/arch.h"
@@ -27,12 +27,10 @@ extern volatile uint32_t systick_millis_count;
 // See: lwip/mem.c
 static DMAMEM LWIP_DECLARE_MEMORY_ALIGNED(the_heap,
                                           LWIP_MEM_ALIGN_SIZE(MEM_SIZE) +
-                                              2*LWIP_MEM_ALIGN_SIZE(8));
+                                              2 * LWIP_MEM_ALIGN_SIZE(8));
 void *ram_heap = the_heap;
 
-u32_t sys_now(void) {
-  return systick_millis_count;
-}
+u32_t sys_now(void) { return systick_millis_count; }
 
 #ifdef LWIP_DEBUG
 // include\lwip\err.h
@@ -56,7 +54,8 @@ Print *volatile stdPrint = nullptr;
 
 extern "C" {
 // Define this function so that printf works; parts of lwIP may use printf.
-// See: https://forum.pjrc.com/threads/28473-Quick-Guide-Using-printf()-on-Teensy-ARM
+// See:
+// https://forum.pjrc.com/threads/28473-Quick-Guide-Using-printf()-on-Teensy-ARM
 // Note: Can't define as weak by default because we don't know which `_write`
 //       would be chosen by the linker, this one or the one defined
 //       in Print.cpp.
@@ -84,11 +83,8 @@ int _write(int file, const void *buf, size_t len) {
 }
 
 #if SYS_LIGHTWEIGHT_PROT
-sys_prot_t sys_arch_protect(void) {
-  return 0;
-}
+sys_prot_t sys_arch_protect(void) { return 0; }
 
-void sys_arch_unprotect(sys_prot_t pval) {
-}
+void sys_arch_unprotect(sys_prot_t pval) {}
 #endif  // SYS_LIGHTWEIGHT_PROT
 }  // extern "C"

@@ -8,13 +8,13 @@
 #define QNE_ETHERNET_H_
 
 // C++ includes
-#include <cstddef>
-#include <cstdint>
-#include <functional>
-
 #include <IPAddress.h>
 #include <WString.h>
 #include <elapsedMillis.h>
+
+#include <cstddef>
+#include <cstdint>
+#include <functional>
 
 #include "QNEthernetClient.h"
 #include "QNEthernetFrame.h"
@@ -61,9 +61,7 @@ class EthernetClass final {
   static constexpr int kMACAddrSize = 6;
 
   // Accesses the singleton instance.
-  static EthernetClass &instance() {
-    return instance_;
-  }
+  static EthernetClass &instance() { return instance_; }
 
   // EthernetClass is neither copyable nor movable
   EthernetClass(const EthernetClass &) = delete;
@@ -82,9 +80,7 @@ class EthernetClass final {
   }
 
   // Gets the MTU.
-  static constexpr size_t mtu() {
-    return MTU;
-  }
+  static constexpr size_t mtu() { return MTU; }
 
   // Retrieves the MAC address.
   void macAddress(uint8_t mac[6]) const;
@@ -115,8 +111,7 @@ class EthernetClass final {
   //
   // This returns whether bringing up the interface, and possibly the DHCP
   // client, was successful.
-  bool begin(const IPAddress &ipaddr,
-             const IPAddress &netmask,
+  bool begin(const IPAddress &ipaddr, const IPAddress &netmask,
              const IPAddress &gw);
 
   // Waits, up to the specified timeout, for a link to be detected. This returns
@@ -140,15 +135,11 @@ class EthernetClass final {
   bool linkIsFullDuplex() const;
 
   // Sets a link state callback.
-  void onLinkState(std::function<void(bool state)> cb) {
-    linkStateCB_ = cb;
-  }
+  void onLinkState(std::function<void(bool state)> cb) { linkStateCB_ = cb; }
 
   // Sets an address changed callback. This will be called if any of the three
   // addresses changed.
-  void onAddressChanged(std::function<void()> cb) {
-    addressChangedCB_ = cb;
-  }
+  void onAddressChanged(std::function<void()> cb) { addressChangedCB_ = cb; }
 
   IPAddress localIP() const;
   IPAddress subnetMask() const;
@@ -243,8 +234,7 @@ class EthernetClass final {
 
   // Starts Ethernet. See the public version of this function, with IPAddress
   // parameters, for information about what this does.
-  bool begin(const ip4_addr_t *ipaddr,
-             const ip4_addr_t *netmask,
+  bool begin(const ip4_addr_t *ipaddr, const ip4_addr_t *netmask,
              const ip4_addr_t *gw);
 
   static elapsedMillis loopTimer_;

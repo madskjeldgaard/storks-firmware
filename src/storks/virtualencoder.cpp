@@ -1,4 +1,5 @@
 #include "virtualencoder.hpp"
+
 #include "usb_midi.h"
 
 namespace storkspace {
@@ -21,10 +22,9 @@ void VirtualEncoder::loop() {
     const auto values = hardwareEnc->getValues();
     // Serial.println(values.velocity14);
 
-    if ( // values.velocity7 != pastVelocity7 ||
+    if (  // values.velocity7 != pastVelocity7 ||
         values.velocity14 != pastVelocity14 ||
         values.velocityFloat != pastVelocityFloat) {
-
       // Accumulate
       add(values.velocity7, values.velocity14, values.velocityFloat);
       send();
@@ -56,19 +56,19 @@ void VirtualEncoder::add(int velocity7, int velocity14, float velocityFloat) {
   constexpr float maxFloatVal = 1.0;
 
   switch (wrapmode) {
-  case WrapMode::Clip:
-    // value7 = clipValue(value7, min7val, max7Val);
-    value14 = clipValue(value14, min14val, max14Val);
-    valueFloat = clipValue(valueFloat, minFloatVal, maxFloatVal);
-    break;
+    case WrapMode::Clip:
+      // value7 = clipValue(value7, min7val, max7Val);
+      value14 = clipValue(value14, min14val, max14Val);
+      valueFloat = clipValue(valueFloat, minFloatVal, maxFloatVal);
+      break;
 
-  case WrapMode::Wrap:
-    // value7 = wrapValue(value7, min7val, max7Val);
-    value14 = wrapValue(value14, min14val, max14Val);
-    valueFloat = wrapMinMaxFloat(valueFloat, minFloatVal, maxFloatVal);
-    break;
-  case WrapMode::Raw:
-    break;
+    case WrapMode::Wrap:
+      // value7 = wrapValue(value7, min7val, max7Val);
+      value14 = wrapValue(value14, min14val, max14Val);
+      valueFloat = wrapMinMaxFloat(valueFloat, minFloatVal, maxFloatVal);
+      break;
+    case WrapMode::Raw:
+      break;
   }
 
   print();
@@ -85,19 +85,18 @@ void VirtualEncoder::send() const {
 }
 
 void VirtualEncoder::sendMidi() const {
-
   // Lower 7 bits of signal
   const auto lowBitVal = value14 & 0x7F;
 
   // Upper 7 bits of signal
   const auto highBitVal = (value14 >> 7) & 0x7F;
 
-  usbMIDI.sendControlChange(ccNum + 32, lowBitVal, midiChannel+1);
-  usbMIDI.sendControlChange(ccNum, highBitVal, midiChannel+1);
+  usbMIDI.sendControlChange(ccNum + 32, lowBitVal, midiChannel + 1);
+  usbMIDI.sendControlChange(ccNum, highBitVal, midiChannel + 1);
 }
 
 void VirtualEncoder::sendOSC() const {
   osc->sendEncoder(valueFloat, midiChannel, layernumber, ccNum);
 }
 
-} // namespace storkspace
+}  // namespace storkspace

@@ -22,9 +22,7 @@ namespace internal {
 // ConnectionState holds all the state needed for a connection.
 class ConnectionManager final {
  public:
-  static ConnectionManager &instance() {
-    return manager;
-  }
+  static ConnectionManager &instance() { return manager; }
 
   std::shared_ptr<ConnectionHolder> connect(const ip_addr_t *ipaddr,
                                             uint16_t port);

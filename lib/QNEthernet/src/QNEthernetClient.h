@@ -8,12 +8,12 @@
 #define QNE_ETHERNETCLIENT_H_
 
 // C++ includes
-#include <cstddef>
-#include <memory>
-
 #include <Client.h>
 #include <IPAddress.h>
 #include <Print.h>
+
+#include <cstddef>
+#include <memory>
 
 #include "internal/ConnectionHolder.h"
 #include "lwip/ip_addr.h"
@@ -39,9 +39,7 @@ class EthernetClient final : public Client {
   EthernetClient &operator=(EthernetClient &&other) = default;
 
   // Returns the maximum number of TCP connections.
-  static constexpr int maxSockets() {
-    return MEMP_NUM_TCP_PCB;
-  }
+  static constexpr int maxSockets() { return MEMP_NUM_TCP_PCB; }
 
   int connect(IPAddress ip, uint16_t port) override;
   int connect(const char *host, uint16_t port) override;
@@ -120,9 +118,9 @@ class EthernetClient final : public Client {
   uint16_t connTimeout_;
 
   std::shared_ptr<internal::ConnectionHolder> conn_;
-      // If this has not been stopped then conn_ might still be non-NULL, so we
-      // can't use NULL as a "connected" check. We also need to check
-      // conn_->connected.
+  // If this has not been stopped then conn_ might still be non-NULL, so we
+  // can't use NULL as a "connected" check. We also need to check
+  // conn_->connected.
 
   friend class EthernetServer;
 };

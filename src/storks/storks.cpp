@@ -12,7 +12,6 @@ Storks::Storks()
 Storks::~Storks() {}
 
 void Storks::setup() {
-
   // #ifdef DEBUG
   //   while (!Serial)
   //     ;
@@ -59,7 +58,6 @@ void Storks::setup() {
 }
 
 void Storks::loop() {
-
   storksdisplay.loop();
   readMIDIInput();
 
@@ -94,11 +92,10 @@ void Storks::readMIDIInput() {
 
       // Print data
       Serial.print("SYSEX: ");
-      for (int i = 0; i < len; ++i)
-        Serial.printf("%i ", data[i]);
+      for (int i = 0; i < len; ++i) Serial.printf("%i ", data[i]);
       Serial.println();
     }
   }
 }
 
-} // namespace storkspace
+}  // namespace storkspace

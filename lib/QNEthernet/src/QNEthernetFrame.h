@@ -8,10 +8,10 @@
 #define QNE_ETHERNETFRAME_H_
 
 // C++ includes
+#include <Stream.h>
+
 #include <cstdint>
 #include <vector>
-
-#include <Stream.h>
 
 #include "lwip/err.h"
 #include "lwip/netif.h"
@@ -34,9 +34,7 @@ namespace network {
 class EthernetFrameClass final : public Stream {
  public:
   // Accesses the singleton instance.
-  static EthernetFrameClass &instance() {
-    return instance_;
-  }
+  static EthernetFrameClass &instance() { return instance_; }
 
   // EthernetFrameClass is neither copyable nor movable
   EthernetFrameClass(const EthernetFrameClass &) = delete;
@@ -44,15 +42,11 @@ class EthernetFrameClass final : public Stream {
 
   // Returns the maximum frame length. This includes any padding and the FCS
   // (Frame Check Sequence, the CRC value). Subtract 4 to exclude the FCS.
-  static constexpr int maxFrameLen() {
-    return MAX_FRAME_LEN;
-  }
+  static constexpr int maxFrameLen() { return MAX_FRAME_LEN; }
 
   // Returns the minimum frame length. This includes any padding and the FCS
   // (Frame Check Sequence, the CRC value). Subtract 4 to exclude the FCS.
-  static constexpr int minFrameLen() {
-    return 64;
-  }
+  static constexpr int minFrameLen() { return 64; }
 
   // Starts a fresh frame. This is similar to EthernetUDP::beginPacket().
   void beginFrame();
@@ -129,8 +123,8 @@ class EthernetFrameClass final : public Stream {
   std::vector<unsigned char> inFrame_;  // Holds received frames
 
   // Frame being processed by the caller
-  std::vector<unsigned char> frame_;    // Holds the frame being read
-  int framePos_ = -1;                   // -1 if not currently reading a frame
+  std::vector<unsigned char> frame_;  // Holds the frame being read
+  int framePos_ = -1;                 // -1 if not currently reading a frame
 
   // Outgoing frames
   bool hasOutFrame_ = false;

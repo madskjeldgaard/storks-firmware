@@ -7,10 +7,10 @@
 #include "ConnectionManager.h"
 
 // C++ includes
+#include <core_pins.h>
+
 #include <algorithm>
 #include <limits>
-
-#include <core_pins.h>
 
 #include "QNEthernet.h"
 #include "lwip/ip.h"
@@ -121,8 +121,8 @@ err_t ConnectionManager::recvFunc(void *arg, struct tcp_pcb *tpcb,
         // Copy pbuf contents
         while (p != nullptr) {
           unsigned char *data = reinterpret_cast<unsigned char *>(p->payload);
-          holder->remaining.insert(holder->remaining.end(),
-                                   &data[0], &data[p->len]);
+          holder->remaining.insert(holder->remaining.end(), &data[0],
+                                   &data[p->len]);
           p = p->next;
         }
       }
@@ -336,8 +336,7 @@ std::shared_ptr<ConnectionHolder> ConnectionManager::findAvailable(
   auto it = std::find_if(
       connections_.begin(), connections_.end(), [port](const auto &elem) {
         const auto &state = elem->state;
-        return (state != nullptr) &&
-               (state->pcb->local_port == port) &&
+        return (state != nullptr) && (state->pcb->local_port == port) &&
                isAvailable(state);
       });
   if (it != connections_.end()) {

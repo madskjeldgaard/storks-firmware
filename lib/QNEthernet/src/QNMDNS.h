@@ -8,9 +8,9 @@
 #define QNE_MDNS_H_
 
 // C++ includes
-#include <vector>
-
 #include <WString.h>
+
+#include <vector>
 
 #include "lwip/apps/mdns_opts.h"
 #include "lwip/netif.h"
@@ -24,9 +24,7 @@ namespace network {
 class MDNSClass final {
  public:
   // Accesses the singleton instance.
-  static MDNSClass &instance() {
-    return instance_;
-  }
+  static MDNSClass &instance() { return instance_; }
 
   // MDNSClass is neither copyable nor movable
   MDNSClass(const MDNSClass &) = delete;
@@ -35,9 +33,7 @@ class MDNSClass final {
   ~MDNSClass();
 
   // Returns the maximum number of services this can support.
-  static constexpr int maxServices() {
-    return MDNS_MAX_SERVICES;
-  }
+  static constexpr int maxServices() { return MDNS_MAX_SERVICES; }
 
   // Starts the mDNS responder and uses the given hostname as the name. This
   // returns whether the call was successful.
@@ -115,10 +111,8 @@ class MDNSClass final {
       }
 
       // Don't compare the functions
-      return (name == other.name) &&
-             (type == other.type) &&
-             (protocol == other.protocol) &&
-             (port == other.port);
+      return (name == other.name) && (type == other.type) &&
+             (protocol == other.protocol) && (port == other.port);
     }
 
     // Resets this service to be invalid and empty.

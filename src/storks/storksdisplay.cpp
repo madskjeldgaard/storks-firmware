@@ -2,17 +2,15 @@
 
 namespace storkspace {
 void StorksDisplay::setup() {
-
   Wire.setSCL(19);
   Wire.setSDA(18);
 
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
   if (!ssd1306display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
-
 #ifdef DEBUG
     Serial.println(F("SSD1306 allocation failed"));
     for (;;)
-      ; // Don't proceed, loop forever
+      ;  // Don't proceed, loop forever
 #endif
   }
 
@@ -21,7 +19,6 @@ void StorksDisplay::setup() {
 };
 
 void StorksDisplay::loop() {
-
   if (timer > updateInterval) {
     sleep(false);
     ssd1306display.clearDisplay();
@@ -65,19 +62,18 @@ void StorksDisplay::loop() {
 };
 
 void StorksDisplay::greet() {
-
   for (int i = 0; i < 3; i++) {
     auto scale = i + 1;
     ssd1306display.setTextSize(max(2, 4 - scale));
 
     if (i % 2 == 0) {
-      ssd1306display.setTextColor(SSD1306_WHITE); // Draw white text
+      ssd1306display.setTextColor(SSD1306_WHITE);  // Draw white text
     } else {
       ssd1306display.setTextColor(SSD1306_BLACK,
-                                  SSD1306_WHITE); // Draw 'inverse' text
+                                  SSD1306_WHITE);  // Draw 'inverse' text
     }
-    ssd1306display.setCursor(0, 0); // Start at top-left corner
-    ssd1306display.cp437(true);     // Use full 256 char 'Code Page 437' font
+    ssd1306display.setCursor(0, 0);  // Start at top-left corner
+    ssd1306display.cp437(true);      // Use full 256 char 'Code Page 437' font
 
     ssd1306display.clearDisplay();
     ssd1306display.println(F("<,^,>"));
@@ -115,10 +111,9 @@ void StorksDisplay::greet() {
 };
 
 void StorksDisplay::encoderInfo() {
-
   ssd1306display.clearDisplay();
-  ssd1306display.setTextColor(SSD1306_WHITE); // Draw white text
-  ssd1306display.cp437(true); // Use full 256 char 'Code Page 437' font
+  ssd1306display.setTextColor(SSD1306_WHITE);  // Draw white text
+  ssd1306display.cp437(true);  // Use full 256 char 'Code Page 437' font
   ssd1306display.setCursor(0, 0);
 
   // Display midi mode
@@ -128,8 +123,7 @@ void StorksDisplay::encoderInfo() {
   // Midi info
   ssd1306display.printf("CC:%i %i/4\nCH:%i", lastTouchedEncoder.encoderNum,
                         lastTouchedEncoder.layerNum + 1,
-                        lastTouchedEncoder.midiChannel
-  );
+                        lastTouchedEncoder.midiChannel);
 
   /* @TODO: */
   /* if(settings.buttonSetup == ButtonSetup::Midi){ */
@@ -142,38 +136,38 @@ void StorksDisplay::encoderInfo() {
   auto valueOffsetHeight = SCREEN_HEIGHT / 2;
 
   switch (valstyle) {
-  case ValueStyle::RawMidiValue:
-    // Print encoder value
-    ssd1306display.setCursor(0, valueOffsetHeight);
-    ssd1306display.setTextSize(4);
-    ssd1306display.print(lastTouchedEncoder.midi14);
-    break;
-  case ValueStyle::FloatingPoint:
-    // Print encoder value
-    ssd1306display.setCursor(0, valueOffsetHeight + 10);
-    ssd1306display.setTextSize(3);
-    ssd1306display.print(
-        lastTouchedEncoder.value,
-        // static_cast<float>(val) / static_cast<float>(settings.maxValue),
-        4);
-    break;
-  case ValueStyle::Bar:
-    const auto maxLength = ssd1306display.width() / 10 * 8;
-    const auto xOffset = 0;
-    const auto barLength =
-        lastTouchedEncoder.value * static_cast<float>(maxLength);
-    const auto barheight = valueOffsetHeight - 20;
+    case ValueStyle::RawMidiValue:
+      // Print encoder value
+      ssd1306display.setCursor(0, valueOffsetHeight);
+      ssd1306display.setTextSize(4);
+      ssd1306display.print(lastTouchedEncoder.midi14);
+      break;
+    case ValueStyle::FloatingPoint:
+      // Print encoder value
+      ssd1306display.setCursor(0, valueOffsetHeight + 10);
+      ssd1306display.setTextSize(3);
+      ssd1306display.print(
+          lastTouchedEncoder.value,
+          // static_cast<float>(val) / static_cast<float>(settings.maxValue),
+          4);
+      break;
+    case ValueStyle::Bar:
+      const auto maxLength = ssd1306display.width() / 10 * 8;
+      const auto xOffset = 0;
+      const auto barLength =
+          lastTouchedEncoder.value * static_cast<float>(maxLength);
+      const auto barheight = valueOffsetHeight - 20;
 
-    // Boundaries
-    ssd1306display.drawRect(xOffset, valueOffsetHeight + 10, maxLength,
-                            barheight, SSD1306_WHITE);
+      // Boundaries
+      ssd1306display.drawRect(xOffset, valueOffsetHeight + 10, maxLength,
+                              barheight, SSD1306_WHITE);
 
-    // Progress
-    ssd1306display.fillRect(xOffset, valueOffsetHeight + 10, barLength,
-                            barheight, SSD1306_WHITE);
-    ssd1306display.display();
+      // Progress
+      ssd1306display.fillRect(xOffset, valueOffsetHeight + 10, barLength,
+                              barheight, SSD1306_WHITE);
+      ssd1306display.display();
 
-    break;
+      break;
   }
 
   // Update ssd1306display
@@ -190,4 +184,4 @@ void StorksDisplay::setLastTouchedEncoder(int hardwareEncoderNum, int layerNum,
   lastTouchedEncoder.midiChannel = midiChannel;
 };
 
-} // namespace storkspace
+}  // namespace storkspace

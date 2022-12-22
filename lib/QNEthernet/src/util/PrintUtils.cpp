@@ -65,9 +65,7 @@ size_t StdioPrint::write(const uint8_t *buffer, size_t size) {
   return retval;
 }
 
-int StdioPrint::availableForWrite() {
-  return stream_->_w;
-}
+int StdioPrint::availableForWrite() { return stream_->_w; }
 
 void StdioPrint::flush() {
   if (std::fflush(stream_) == EOF) {

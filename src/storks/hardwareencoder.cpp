@@ -51,4 +51,4 @@ void HardwareEncoder::setup() {
 
 const EncoderValues &HardwareEncoder::getValues() const { return values; }
 
-} // namespace storkspace
+}  // namespace storkspace

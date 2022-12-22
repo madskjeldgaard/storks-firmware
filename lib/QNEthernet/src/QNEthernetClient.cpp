@@ -7,10 +7,10 @@
 #include "QNEthernetClient.h"
 
 // C++ includes
+#include <elapsedMillis.h>
+
 #include <algorithm>
 #include <cstring>
-
-#include <elapsedMillis.h>
 
 #include "QNDNSClient.h"
 #include "QNEthernet.h"
@@ -32,8 +32,7 @@ static constexpr uint32_t kDNSLookupTimeout =
 EthernetClient::EthernetClient() : EthernetClient(nullptr) {}
 
 EthernetClient::EthernetClient(std::shared_ptr<internal::ConnectionHolder> conn)
-    : connTimeout_(1000),
-      conn_(conn) {}
+    : connTimeout_(1000), conn_(conn) {}
 
 EthernetClient::~EthernetClient() {
   // Questionable not to call stop(), but copy semantics demand that we don't
@@ -132,13 +131,9 @@ bool EthernetClient::isNoDelay() {
   return ((state->pcb->flags & TF_NODELAY) != 0);
 }
 
-void EthernetClient::stop() {
-  close(true);
-}
+void EthernetClient::stop() { close(true); }
 
-void EthernetClient::close() {
-  close(false);
-}
+void EthernetClient::close() { close(false); }
 
 void EthernetClient::close(bool wait) {
   if (conn_ == nullptr) {
@@ -234,9 +229,7 @@ uint16_t EthernetClient::remotePort() {
 //  Transmission
 // --------------------------------------------------------------------------
 
-size_t EthernetClient::writeFully(uint8_t b) {
-  return writeFully(&b, 1);
-}
+size_t EthernetClient::writeFully(uint8_t b) { return writeFully(&b, 1); }
 
 size_t EthernetClient::writeFully(const char *buf) {
   return writeFully(reinterpret_cast<const uint8_t *>(buf), strlen(buf));

@@ -8,9 +8,9 @@
 #define QNE_UTIL_IPTOOLS_H_
 
 // C++ includes
-#include <cstdint>
-
 #include <IPAddress.h>
+
+#include <cstdint>
 
 #include "lwip/ip_addr.h"
 

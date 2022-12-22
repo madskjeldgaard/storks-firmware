@@ -69,9 +69,7 @@ EthernetUDP::EthernetUDP()
       outPort_(0),
       outPacket_{} {}
 
-EthernetUDP::~EthernetUDP() {
-  stop();
-}
+EthernetUDP::~EthernetUDP() { stop(); }
 
 uint8_t EthernetUDP::begin(uint16_t localPort) {
   return begin(localPort, false);
@@ -212,17 +210,11 @@ void EthernetUDP::flush() {
   // Instead, do a no-op.
 }
 
-const unsigned char *EthernetUDP::data() const {
-  return packet_.data();
-}
+const unsigned char *EthernetUDP::data() const { return packet_.data(); }
 
-IPAddress EthernetUDP::remoteIP() {
-  return ip_addr_get_ip4_uint32(&addr_);
-}
+IPAddress EthernetUDP::remoteIP() { return ip_addr_get_ip4_uint32(&addr_); }
 
-uint16_t EthernetUDP::remotePort() {
-  return port_;
-}
+uint16_t EthernetUDP::remotePort() { return port_; }
 
 // --------------------------------------------------------------------------
 //  Transmission
@@ -282,14 +274,14 @@ int EthernetUDP::endPacket() {
   return retval;
 }
 
-bool EthernetUDP::send(const IPAddress &ip, uint16_t port,
-                       const uint8_t *data, size_t len) {
+bool EthernetUDP::send(const IPAddress &ip, uint16_t port, const uint8_t *data,
+                       size_t len) {
   ip_addr_t ipaddr IPADDR4_INIT(get_uint32(ip));
   return send(&ipaddr, port, data, len);
 }
 
-bool EthernetUDP::send(const char *host, uint16_t port,
-                       const uint8_t *data, size_t len) {
+bool EthernetUDP::send(const char *host, uint16_t port, const uint8_t *data,
+                       size_t len) {
   IPAddress ip;
   if (!DNSClient::getHostByName(host, ip, kDNSLookupTimeout)) {
     return false;
