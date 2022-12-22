@@ -1,0 +1,25 @@
+name: Run clang-format Linter
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: DoozyX/clang-format-lint-action@v0.14
+      with:
+        source: '.'
+        exclude: './components'
+        extensions: 'h,cpp,c'
+        clangFormatVersion: 14
+        style: google
+        inplace: True
+    - uses: EndBug/add-and-commit@v4
+      with:
+        author_name: 👽Clang Robot👽
+        author_email: robot@example.com
+        message: 'style: Auto-fix formatting using clang-format 👽'
+      env:
+        GITHUB_TOKEN: ${{ secrets.ADD_TO_PROJECT_PAT }}
