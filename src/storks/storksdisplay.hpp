@@ -12,26 +12,6 @@
 
 namespace storkspace {
 
-// A simple type to pass around encoder values inside the display class
-struct EncoderTouch {
-
-  float value;
-
-  int encoderNum, layerNum, midiChannel, midi14;
-};
-
-enum class ValueStyle { RawMidiValue, FloatingPoint, Bar };
-constexpr int numValueStyles = 3;
-
-enum class ScreenView {
-  EncoderValue,
-  PageOverview,
-  MidiModeDisplay,
-  Intro,
-  Sleep,
-  ButtonValue
-};
-
 /**
  * @brief StorksDisplay
  * @author Mads Kjeldgaard
@@ -39,6 +19,28 @@ enum class ScreenView {
  * @details Interface for the OLED screen of Storks
  */
 class StorksDisplay {
+
+private:
+  // A simple type to pass around encoder values inside the display class
+  struct EncoderTouch {
+
+    float value;
+
+    int encoderNum, layerNum, midiChannel, midi14;
+  };
+
+  enum class ValueStyle { RawMidiValue, FloatingPoint, Bar };
+  static constexpr int numValueStyles = 3;
+
+  // enum class ScreenView {
+  //   EncoderValue,
+  //   PageOverview,
+  //   MidiModeDisplay,
+  //   Intro,
+  //   Sleep,
+  //   ButtonValue
+  // };
+
 public:
   // ~StorksDisplay();
 
@@ -135,7 +137,7 @@ public:
                              int midiChannel, float value, int midi14Val);
 
   EncoderTouch lastTouchedEncoder;
-  ValueStyle valstyle{ValueStyle::FloatingPoint};
+  ValueStyle valstyle{ValueStyle::Bar};
   unsigned int updateInterval;
 
   elapsedMillis timer;
