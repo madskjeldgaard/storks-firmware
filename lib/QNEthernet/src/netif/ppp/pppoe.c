@@ -352,7 +352,7 @@ static struct pppoe_softc *pppoe_find_softc_by_hunique(u8_t *token, size_t len,
   if (sc->sc_state < PPPOE_STATE_PADI_SENT ||
       sc->sc_state >= PPPOE_STATE_SESSION) {
     PPPDEBUG(LOG_DEBUG, ("%c%c%" U16_F ": host unique tag found, but it "
-                                       "belongs to a connection in state %d\n",
+                         "belongs to a connection in state %d\n",
                          sc->sc_ethif->name[0], sc->sc_ethif->name[1],
                          sc->sc_ethif->num, sc->sc_state));
     return NULL;

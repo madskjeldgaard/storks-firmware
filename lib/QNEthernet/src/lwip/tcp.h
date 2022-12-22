@@ -267,8 +267,9 @@ struct tcp_pcb {
   0x08U /* If this is set, tcp_close failed to enqueue the FIN (retried in \
            tcp_tmr) */
 #define TF_RXCLOSED 0x10U /* rx closed by tcp_shutdown */
-#define TF_FIN 0x20U /* Connection was closed locally (FIN segment enqueued). \
-                      */
+#define TF_FIN                                                   \
+  0x20U /* Connection was closed locally (FIN segment enqueued). \
+         */
 #define TF_NODELAY 0x40U /* Disable Nagle algorithm */
 #define TF_NAGLEMEMERR                                                    \
   0x80U /* nagle enabled, memerr, try to output to prevent delayed ACK to \

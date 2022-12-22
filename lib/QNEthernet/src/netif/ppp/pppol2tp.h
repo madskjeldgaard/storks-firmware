@@ -102,8 +102,9 @@ extern "C" {
 
 /* -- AVP - Result code */
 #define PPPOL2TP_AVPTYPE_RESULTCODE 1 /* Result code */
-#define PPPOL2TP_RESULTCODE 1 /* General request to clear control connection \
-                               */
+#define PPPOL2TP_RESULTCODE                        \
+  1 /* General request to clear control connection \
+     */
 
 /* -- AVP - Protocol version (!= L2TP Header version) */
 #define PPPOL2TP_AVPTYPE_VERSION 2

@@ -20,9 +20,10 @@ void StorksDisplay::setup() {
 
 void StorksDisplay::loop() {
   if (timer > updateInterval) {
-	// if (lastTouchedEncoder == lastTouchedEncoderState && sleepTimer > sleepTime) {
-	//
-	// }
+    // if (lastTouchedEncoder == lastTouchedEncoderState && sleepTimer >
+    // sleepTime) {
+    //
+    // }
     sleep(false);
     ssd1306display.clearDisplay();
     encoderInfo();

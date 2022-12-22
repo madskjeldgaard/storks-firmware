@@ -201,14 +201,16 @@ struct ifreq {
  * Additional options, not kept in so_options.
  */
 #define SO_DEBUG 0x0001 /* Unimplemented: turn on debugging info recording */
-#define SO_ACCEPTCONN 0x0002  /* socket has had listen() */
-#define SO_DONTROUTE 0x0010   /* Unimplemented: just use interface addresses */
-#define SO_USELOOPBACK 0x0040 /* Unimplemented: bypass hardware when possible \
-                               */
-#define SO_LINGER 0x0080      /* linger on close if data present */
+#define SO_ACCEPTCONN 0x0002 /* socket has had listen() */
+#define SO_DONTROUTE 0x0010  /* Unimplemented: just use interface addresses */
+#define SO_USELOOPBACK                                                   \
+  0x0040                 /* Unimplemented: bypass hardware when possible \
+                          */
+#define SO_LINGER 0x0080 /* linger on close if data present */
 #define SO_DONTLINGER ((int)(~SO_LINGER))
-#define SO_OOBINLINE 0x0100 /* Unimplemented: leave received OOB data in line \
-                             */
+#define SO_OOBINLINE                                       \
+  0x0100 /* Unimplemented: leave received OOB data in line \
+          */
 #define SO_REUSEPORT \
   0x0200                   /* Unimplemented: allow local address & port reuse */
 #define SO_SNDBUF 0x1001   /* Unimplemented: send buffer size */
