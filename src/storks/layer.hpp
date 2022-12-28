@@ -3,6 +3,7 @@
 #define STORKSLAYER
 #include "common.hpp"
 #include "mux.hpp"
+#include "storks/scaleintervals.hpp"
 #include "storks/storksdisplay.hpp"
 #include "virtualbutton.hpp"
 #include "virtualencoder.hpp"
@@ -16,6 +17,7 @@
  */
 
 namespace storkspace {
+
 
 class Layer {
 private:

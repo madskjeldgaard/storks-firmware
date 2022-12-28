@@ -2,6 +2,8 @@
 
 namespace storkspace {
 
+const static ScaleIntervals intervals;
+
 void Layer::setup(
     const std::array<HardwareEncoder, numHardwareEncoders> &hardwareEncoders,
     const Mux *buttonMux, const int midiChan, const int layerNum,
@@ -28,9 +30,14 @@ void Layer::setup(
   for (std::size_t virtbuttonNum = 0; virtbuttonNum < virtualButtons.size();
        virtbuttonNum++) {
     const auto hardwareButtonIndex = virtbuttonNum % numHardwareButtons;
-    const auto noteNum = 44 + hardwareButtonIndex;
-    // Serial.printf("Setting up button with hardware index %i layer %i \n",
-    // hardwareButtonIndex, layerNumber);
+    // const auto noteNum = 44 + hardwareButtonIndex;
+    constexpr auto middleCMidiNote = 60;
+    constexpr auto baseMidiNote = middleCMidiNote;
+    const auto noteNum = intervals.midinoteWithScaleInterval(
+      baseMidiNote,
+      "Major",
+      hardwareButtonIndex
+    );
 
     virtualButtons[virtbuttonNum].setup(buttonMux, hardwareButtonIndex, noteNum,
                                         midiChan, layerNumber, osc);
@@ -49,4 +56,4 @@ void Layer::loop() {
   };
 }
 
-}  // namespace storkspace
+} // namespace storkspace

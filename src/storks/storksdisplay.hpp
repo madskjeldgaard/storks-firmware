@@ -19,11 +19,9 @@ namespace storkspace {
  * @details Interface for the OLED screen of Storks
  */
 class StorksDisplay {
-
-private:
+ private:
   // A simple type to pass around encoder values inside the display class
   struct EncoderTouch {
-
     float value;
 
     int encoderNum, layerNum, midiChannel, midi14;
@@ -41,23 +39,23 @@ private:
   //   ButtonValue
   // };
 
-public:
+ public:
   // ~StorksDisplay();
 
-  static constexpr auto SCREEN_WIDTH = 128; // OLED display width, in pixels
-  static constexpr auto SCREEN_HEIGHT = 64; // OLED display height, in pixels
+  static constexpr auto SCREEN_WIDTH = 128;  // OLED display width, in pixels
+  static constexpr auto SCREEN_HEIGHT = 64;  // OLED display height, in pixels
 
   static constexpr auto OLED_RESET =
-      -1; // Reset pin # (or -1 if sharing Arduino reset pin)
+      -1;  // Reset pin # (or -1 if sharing Arduino reset pin)
   static constexpr auto SCREEN_ADDRESS =
-      0x3C; ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
+      0x3C;  ///< See datasheet for Address; 0x3D for 128x64, 0x3C for 128x32
 
   Adafruit_SSD1306 ssd1306display;
 
   // screenUpdateInterval is milliseconds between screen updates
   StorksDisplay(unsigned int screenUpdateInterval = 10)
       : ssd1306display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET),
-        updateInterval(screenUpdateInterval){};
+	updateInterval(screenUpdateInterval){};
   void setup();
 
   void loop();
@@ -134,7 +132,7 @@ public:
 
   // Update the screen's data for last touched encoder
   void setLastTouchedEncoder(int hardwareEncoderNum, int layerNum,
-                             int midiChannel, float value, int midi14Val);
+			     int midiChannel, float value, int midi14Val);
 
   EncoderTouch lastTouchedEncoder;
   ValueStyle valstyle{ValueStyle::Bar};
@@ -143,5 +141,5 @@ public:
   elapsedMillis timer;
 };
 
-} // namespace storkspace
+}  // namespace storkspace
 #endif

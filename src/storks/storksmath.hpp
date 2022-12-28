@@ -1,6 +1,7 @@
 #pragma once
 #ifndef STORKSMATHHH
 #define STORKSMATHHH
+#include <math.h>
 
 namespace storkspace{
 

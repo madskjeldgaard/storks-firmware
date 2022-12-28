@@ -24,7 +24,7 @@ void VirtualButton::loop() {
 
 void VirtualButton::send() const {
   if (sendMidiEnabled) {
-    sendMidi();
+    sendMidiNote();
   };
 
   if (sendOSCEnabled) {
@@ -32,16 +32,23 @@ void VirtualButton::send() const {
   }
 }
 
-void VirtualButton::sendMidi() const {
+void VirtualButton::sendMidiNote() const {
   constexpr auto velocity = 127;
-  if (value == 1) {
-    usbMIDI.sendNoteOn(midiNoteNum, velocity, midiChannel + 1);
-  } else {
-    usbMIDI.sendNoteOff(midiNoteNum, velocity, midiChannel + 1);
-  }
+  constexpr auto noteOnToggle = 1;
+  const auto sendFunc = [this](const int &midiNote) {
+    if (value == noteOnToggle) {
+
+      usbMIDI.sendNoteOn(midiNote, velocity, midiChannel + 1);
+
+    } else {
+      usbMIDI.sendNoteOff(midiNote, velocity, midiChannel + 1);
+    }
+  };
+
+  std::for_each(cbegin(midiNotes), cend(midiNotes), sendFunc);
 }
 
 void VirtualButton::sendOSC() const {
-  osc->sendButton(value, midiChannel, layernumber, midiNoteNum);
+  osc->sendButton(value, midiChannel, layernumber, midiNotes[0]);
 }
-}  // namespace storkspace
+} // namespace storkspace
