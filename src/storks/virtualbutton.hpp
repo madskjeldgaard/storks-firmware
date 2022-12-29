@@ -38,7 +38,6 @@ public:
 	// newChord->push_back(60);
 	// newChord->push_back(64);
 	// newChord->push_back(68);
-	// const auto newChord = std::vector<int>{60, 62, 65};
 	// setMidiNoteChord(newChord);
 
     layernumber = layerNum;
@@ -83,19 +82,21 @@ public:
     // Remove old chord if any
     midiNotes.clear();
 
-    const auto setFunc = [this](int &chordMidiNote) {
-      chordMidiNote = clipValue(chordMidiNote, minMidiNum, maxMidiNum);
-      midiNotes.push_back(chordMidiNote);
-	  Serial.println(chordMidiNote);
+    const auto setFunc = [this](const int &chordMidiNote) {
+      const auto clippedChordMidiNote = clipValue(chordMidiNote, minMidiNum, maxMidiNum);
+      midiNotes.push_back(clippedChordMidiNote);
+	  Serial.println(clippedChordMidiNote);
     };
 
-    std::for_each(begin(*chord), end(*chord), setFunc);
+	// FIXME: transform instead
+    std::for_each(cbegin(*chord), cend(*chord), setFunc);
+
   }
 
   void enable(bool onOrOff) { enabled = onOrOff; };
 
 private:
-  std::vector<unsigned int> midiNotes{60};
+  std::vector<int> midiNotes{60};
   unsigned int layernumber;
   unsigned int midiChannel;
   unsigned int index;

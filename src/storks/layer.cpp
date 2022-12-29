@@ -30,9 +30,10 @@ void Layer::setup(
   for (std::size_t virtbuttonNum = 0; virtbuttonNum < virtualButtons.size();
        virtbuttonNum++) {
     const auto hardwareButtonIndex = virtbuttonNum % numHardwareButtons;
-    // const auto noteNum = 44 + hardwareButtonIndex;
     constexpr auto middleCMidiNote = 60;
     constexpr auto baseMidiNote = middleCMidiNote;
+
+    // The midi note associated with this button
     const auto noteNum = intervals.midinoteWithScaleInterval(
         baseMidiNote, "Major", hardwareButtonIndex);
 
@@ -42,15 +43,16 @@ void Layer::setup(
 }
 
 void Layer::loop() {
-  for (std::size_t virtencNum = 0; virtencNum < virtualEncoders.size();
-       virtencNum++) {
-    virtualEncoders[virtencNum].loop();
-  };
 
-  for (std::size_t virtbuttonNum = 0; virtbuttonNum < virtualButtons.size();
-       virtbuttonNum++) {
-    virtualButtons[virtbuttonNum].loop();
-  };
+  // Loop through encoders
+  std::for_each(
+      begin(virtualEncoders), end(virtualEncoders),
+      [this](VirtualEncoder &virtualEncoder) { virtualEncoder.loop(); });
+
+  // Loop through buttons
+  std::for_each(
+      begin(virtualButtons), end(virtualButtons),
+      [this](VirtualButton &virtualButton) { virtualButton.loop(); });
 }
 
-}  // namespace storkspace
+} // namespace storkspace

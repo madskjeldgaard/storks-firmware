@@ -19,10 +19,13 @@ void Channel::setup(
 };
 
 void Channel::loop() {
-  // NOTE: Should these only iterate on enabled layers?
-  for (std::size_t layerNum = 0; layerNum < layers.size(); layerNum++) {
-    layers[layerNum].loop();
-  }
+  auto doOnEachLayer = [this](Layer &layer) { layer.loop(); };
+  std::for_each(
+    begin(layers),
+    end(layers),
+    doOnEachLayer
+  );
+
 };
 
 }  // namespace storkspace

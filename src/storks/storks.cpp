@@ -30,12 +30,9 @@ void Storks::setup() {
   osc.sendEncoder(666);
 
   // Encoder setup
-  for (uint16_t numEncoder = 0; numEncoder < hardwareEncoders.size();
-       numEncoder++) {
-    Serial.print("Setting up hardware encoder num ");
-    Serial.println(numEncoder);
-    hardwareEncoders[numEncoder].setup();
-  }
+  auto doOnEachEncoder = [this](HardwareEncoder &enc) { enc.setup(); };
+  std::for_each(begin(hardwareEncoders), end(hardwareEncoders),
+                doOnEachEncoder);
 
   // Menu encoder
   menuEncoder.setup();
@@ -62,10 +59,10 @@ void Storks::loop() {
   readMIDIInput();
 
   // Update hardware stuff
-  for (std::size_t encoderNum = 0; encoderNum < hardwareEncoders.size();
-       encoderNum++) {
-    hardwareEncoders[encoderNum].loop();
-  }
+  auto doOnEachEncoder = [this](HardwareEncoder &enc) { enc.loop(); };
+  std::for_each(begin(hardwareEncoders), end(hardwareEncoders),
+                doOnEachEncoder);
+
 
   menuEncoder.loop();
   buttonMux.loop();
@@ -75,9 +72,9 @@ void Storks::loop() {
   //  }
 
   // Update virtual stuff
-  for (std::size_t chanNum = 0; chanNum < channels.size(); chanNum++) {
-    channels[chanNum].loop();
-  }
+  auto doOnEachChannel = [this](Channel &chan) { chan.loop(); };
+  std::for_each(begin(channels), end(channels),
+                doOnEachChannel);
 
   // Send osc bundles if any
   osc.loop();
@@ -92,10 +89,11 @@ void Storks::readMIDIInput() {
 
       // Print data
       Serial.print("SYSEX: ");
-      for (int i = 0; i < len; ++i) Serial.printf("%i ", data[i]);
+      for (int i = 0; i < len; ++i)
+        Serial.printf("%i ", data[i]);
       Serial.println();
     }
   }
 }
 
-}  // namespace storkspace
+} // namespace storkspace

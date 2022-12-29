@@ -18,7 +18,6 @@
 
 namespace storkspace {
 
-
 class Layer {
 private:
   std::array<VirtualEncoder, numHardwareEncoders> virtualEncoders;
@@ -39,15 +38,19 @@ public:
 
   void enable(const bool onOrOff) {
     enabled = onOrOff;
-    for (std::size_t virtencNum = 0; virtencNum < virtualEncoders.size();
-         virtencNum++) {
-      virtualEncoders[virtencNum].enable(enabled);
-    }
 
-    for (std::size_t virtbuttonNum = 0; virtbuttonNum < virtualButtons.size();
-         virtbuttonNum++) {
-      virtualButtons[virtbuttonNum].enable(enabled);
-    }
+    auto doOnEachEncoder = [this](VirtualEncoder &enc) {
+      enc.enable(enabled);
+	};
+
+    std::for_each(begin(virtualEncoders), end(virtualEncoders), doOnEachEncoder);
+
+	auto doOnEachButton = [this](VirtualButton &but) {
+	  but.enable(enabled);
+	};
+
+    std::for_each(begin(virtualButtons), end(virtualButtons), doOnEachButton);
+
   };
 };
 
