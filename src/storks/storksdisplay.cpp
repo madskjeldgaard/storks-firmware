@@ -10,7 +10,7 @@ void StorksDisplay::setup() {
 #ifdef DEBUG
     Serial.println(F("SSD1306 allocation failed"));
     for (;;)
-      ;	 // Don't proceed, loop forever
+      ;  // Don't proceed, loop forever
 #endif
   }
 
@@ -74,10 +74,10 @@ void StorksDisplay::greet() {
       ssd1306display.setTextColor(SSD1306_WHITE);  // Draw white text
     } else {
       ssd1306display.setTextColor(SSD1306_BLACK,
-				  SSD1306_WHITE);  // Draw 'inverse' text
+                                  SSD1306_WHITE);  // Draw 'inverse' text
     }
     ssd1306display.setCursor(0, 0);  // Start at top-left corner
-    ssd1306display.cp437(true);	     // Use full 256 char 'Code Page 437' font
+    ssd1306display.cp437(true);      // Use full 256 char 'Code Page 437' font
 
     ssd1306display.clearDisplay();
     ssd1306display.println(F("<,^,>"));
@@ -85,7 +85,7 @@ void StorksDisplay::greet() {
 
     delay(33 * scale);
     ssd1306display.setCursor(ssd1306display.width() / scale,
-			     ssd1306display.height() / scale);
+                             ssd1306display.height() / scale);
     ssd1306display.clearDisplay();
     ssd1306display.println(F("<,^,>"));
     ssd1306display.display();
@@ -126,8 +126,8 @@ void StorksDisplay::encoderInfo() {
 
   // Midi info
   ssd1306display.printf("CC:%i %i/4\nCH:%i", lastTouchedEncoder.encoderNum,
-			lastTouchedEncoder.layerNum + 1,
-			lastTouchedEncoder.midiChannel);
+                        lastTouchedEncoder.layerNum + 1,
+                        lastTouchedEncoder.midiChannel);
 
   /* @TODO: */
   /* if(settings.buttonSetup == ButtonSetup::Midi){ */
@@ -151,24 +151,24 @@ void StorksDisplay::encoderInfo() {
       ssd1306display.setCursor(0, valueOffsetHeight + 10);
       ssd1306display.setTextSize(3);
       ssd1306display.print(
-	  lastTouchedEncoder.value,
-	  // static_cast<float>(val) / static_cast<float>(settings.maxValue),
-	  4);
+          lastTouchedEncoder.value,
+          // static_cast<float>(val) / static_cast<float>(settings.maxValue),
+          4);
       break;
     case ValueStyle::Bar:
       const auto maxLength = ssd1306display.width() / 10 * 8;
       const auto xOffset = 0;
       const auto barLength =
-	  lastTouchedEncoder.value * static_cast<float>(maxLength);
+          lastTouchedEncoder.value * static_cast<float>(maxLength);
       const auto barheight = valueOffsetHeight - 20;
 
       // Boundaries
       ssd1306display.drawRect(xOffset, valueOffsetHeight + 10, maxLength,
-			      barheight, SSD1306_WHITE);
+                              barheight, SSD1306_WHITE);
 
       // Progress
       ssd1306display.fillRect(xOffset, valueOffsetHeight + 10, barLength,
-			      barheight, SSD1306_WHITE);
+                              barheight, SSD1306_WHITE);
       ssd1306display.display();
 
       break;
@@ -179,8 +179,8 @@ void StorksDisplay::encoderInfo() {
 };
 
 void StorksDisplay::setLastTouchedEncoder(int hardwareEncoderNum, int layerNum,
-					  int midiChannel, float value,
-					  int midi14Val) {
+                                          int midiChannel, float value,
+                                          int midi14Val) {
   lastTouchedEncoder.value = value;
   lastTouchedEncoder.encoderNum = hardwareEncoderNum;
   lastTouchedEncoder.layerNum = layerNum;

@@ -34,10 +34,7 @@ void Layer::setup(
     constexpr auto middleCMidiNote = 60;
     constexpr auto baseMidiNote = middleCMidiNote;
     const auto noteNum = intervals.midinoteWithScaleInterval(
-      baseMidiNote,
-      "Major",
-      hardwareButtonIndex
-    );
+        baseMidiNote, "Major", hardwareButtonIndex);
 
     virtualButtons[virtbuttonNum].setup(buttonMux, hardwareButtonIndex, noteNum,
                                         midiChan, layerNumber, osc);
@@ -56,4 +53,4 @@ void Layer::loop() {
   };
 }
 
-} // namespace storkspace
+}  // namespace storkspace

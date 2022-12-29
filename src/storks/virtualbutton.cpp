@@ -37,7 +37,6 @@ void VirtualButton::sendMidiNote() const {
   constexpr auto noteOnToggle = 1;
   const auto sendFunc = [this](const int &midiNote) {
     if (value == noteOnToggle) {
-
       usbMIDI.sendNoteOn(midiNote, velocity, midiChannel + 1);
 
     } else {
@@ -51,4 +50,4 @@ void VirtualButton::sendMidiNote() const {
 void VirtualButton::sendOSC() const {
   osc->sendButton(value, midiChannel, layernumber, midiNotes[0]);
 }
-} // namespace storkspace
+}  // namespace storkspace
