@@ -20,12 +20,7 @@ void Channel::setup(
 
 void Channel::loop() {
   auto doOnEachLayer = [this](Layer &layer) { layer.loop(); };
-  std::for_each(
-    begin(layers),
-    end(layers),
-    doOnEachLayer
-  );
-
+  std::for_each(begin(layers), end(layers), doOnEachLayer);
 };
 
 }  // namespace storkspace

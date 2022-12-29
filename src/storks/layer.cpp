@@ -43,16 +43,14 @@ void Layer::setup(
 }
 
 void Layer::loop() {
-
   // Loop through encoders
   std::for_each(
       begin(virtualEncoders), end(virtualEncoders),
       [this](VirtualEncoder &virtualEncoder) { virtualEncoder.loop(); });
 
   // Loop through buttons
-  std::for_each(
-      begin(virtualButtons), end(virtualButtons),
-      [this](VirtualButton &virtualButton) { virtualButton.loop(); });
+  std::for_each(begin(virtualButtons), end(virtualButtons),
+                [this](VirtualButton &virtualButton) { virtualButton.loop(); });
 }
 
-} // namespace storkspace
+}  // namespace storkspace
