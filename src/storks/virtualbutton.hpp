@@ -32,13 +32,14 @@ public:
     osc = oschost;
     index = hardwareButtonIndex;
     midiChannel = chan;
-    setMidiNoteNumber(noteNum);
+    // setMidiNoteNumber(noteNum);
 
 	// std::unique_ptr<std::vector<int>> newChord = std::make_unique<std::vector<int>>() ;
-	// newChord->push_back(60);
-	// newChord->push_back(64);
-	// newChord->push_back(68);
-	// setMidiNoteChord(newChord);
+	auto newChord = makeChordVector();
+	newChord->push_back(noteNum);
+	newChord->push_back(noteNum + 4);
+	newChord->push_back(noteNum + 8);
+	setMidiNoteChord(newChord);
 
     layernumber = layerNum;
 
@@ -75,7 +76,7 @@ public:
    *
    * @param chord A list of 7 bit midi note values
    */
-  void setMidiNoteChord(std::unique_ptr<std::vector<int>> &chord) {
+  void setMidiNoteChord(ChordVector &chord) {
     const auto maxMidiNum = 127;
     const auto minMidiNum = 0;
 

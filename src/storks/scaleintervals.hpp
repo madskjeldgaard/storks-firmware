@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+#include "common.hpp"
 
 /**
  * @brief ScaleIntervals
@@ -14,12 +15,6 @@
 
 namespace storkspace {
 
-// Storks only has 8 keys
-constexpr auto numDegrees = 8;
-
-using ScaleName = std::string;
-using DegreeArray = std::array<int, numDegrees>;
-using ScaleDegreeMap = std::unordered_map<ScaleName, DegreeArray>;
 
 class ScaleIntervals {
 public:

@@ -39,6 +39,17 @@ void Layer::setup(
 
     virtualButtons[virtbuttonNum].setup(buttonMux, hardwareButtonIndex, noteNum,
                                         midiChan, layerNumber, osc);
+
+		// TEMP: Set chord
+	  // const auto note1 = intervals.midinoteWithScaleInterval(baseMidiNote, "Major", hardwareButtonIndex);
+	  // const auto note2 = intervals.midinoteWithScaleInterval(baseMidiNote, "Major", hardwareButtonIndex + 2);
+	  // const auto note3 = intervals.midinoteWithScaleInterval(baseMidiNote, "Major", hardwareButtonIndex + 4);
+	  // auto newChord = makeChordVector();
+	  // std::unique_ptr<std::vector<int>> newChord = std::make_unique<std::vector<int>>();
+	  // newChord->push_back(note1);
+	  // newChord->push_back(note2);
+	  // newChord->push_back(note3);
+	  // virtualButtons[virtbuttonNum].setMidiNoteChord(newChord);
   };
 }
 
