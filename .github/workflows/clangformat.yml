@@ -2,7 +2,7 @@ name: Run clang-format Linter
 
 on:
   push:
-    branch: [main]
+    branches: [main]
 
 jobs:
   build:
