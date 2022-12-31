@@ -41,13 +41,7 @@ void VirtualEncoder::loop() {
 
 void VirtualEncoder::add(int velocity7, int velocity14, float velocityFloat) {
   value14 = value14 + velocity14;
-  // TODO: This makes velocty7 obsolete
-  // value7 = value14 >> 7;
-  // value7 = value7 + velocity7;
   valueFloat = valueFloat + velocityFloat;
-
-  // constexpr int min7val = 0;
-  // constexpr int max7Val = pow(2, 7) - 1;
 
   constexpr int min14val = 0;
   constexpr int max14Val = pow(2, 14) - 1;
@@ -91,8 +85,15 @@ void VirtualEncoder::sendMidi() const {
   // Upper 7 bits of signal
   const auto highBitVal = (value14 >> 7) & 0x7F;
 
-  usbMIDI.sendControlChange(ccNum + 32, lowBitVal, midiChannel + 1);
-  usbMIDI.sendControlChange(ccNum, highBitVal, midiChannel + 1);
+  if(midimode == StorksMidiMode::FourteenBit) {
+
+	usbMIDI.sendControlChange(ccNum + 32, lowBitVal, midiChannel + 1);
+
+	usbMIDI.sendControlChange(ccNum, highBitVal, midiChannel + 1);
+  } else {
+	usbMIDI.sendControlChange(ccNum, highBitVal, midiChannel + 1);
+  }
+
 }
 
 void VirtualEncoder::sendOSC() const {

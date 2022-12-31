@@ -5,10 +5,12 @@
 #include "hardwareencoder.hpp"
 #include "oschost.hpp"
 #include "storksmath.hpp"
+#include "common.hpp"
 #include <cmath>
 
 namespace storkspace {
 enum class WrapMode { Clip, Wrap, Raw };
+enum StorksMidiMode { SevenBit, FourteenBit };
 
 /**
  * @brief A virtual encoder
@@ -60,9 +62,11 @@ private:
   WrapMode wrapmode;
   int midiChannel, ccNum, layernumber;
   bool enabled{false}, sendOSCEnabled{true}, sendMidiEnabled{true};
+  StorksMidiMode midimode{SevenBit};
 
   // OLED
   StorksDisplay *display;
+
 };
 
 }; // namespace storkspace

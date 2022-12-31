@@ -30,17 +30,19 @@ using ScaleName = std::string;
 using DegreeArray = std::array<int, numDegrees>;
 using ScaleDegreeMap = std::unordered_map<ScaleName, DegreeArray>;
 
-
-using ChordVector = std::unique_ptr<std::vector<int>>;
+using ChordVector = std::vector<int>;
 
 /**
  * @brief Creates a chord which is a std::vector of ints wrapped in a unique_ptr
  *
  * @return chord
  */
-static ChordVector makeChordVector(){
-  return std::make_unique<std::vector<int>>();
-}
+// static std::unique_ptr<ChordVector> makeChordVector(){
+//   return std::make_unique<ChordVector>();
+// }
+
+// Enums
+// enum StorksMidiMode { SevenBit, FourteenBit };
 
 } // namespace storkspace
 #endif
