@@ -64,13 +64,13 @@ public:
 	oldValue = newValue;
 
      // Print info
-    Serial.println("-------");
-    Serial.print("Delta time: ");
-    Serial.println(deltaTime);
-    Serial.print("Delta pos: ");
-    Serial.println(deltaPosition);
-    Serial.print("New angular speed: ");
-    Serial.println(angularSpeed, 20);
+    // Serial.println("-------");
+    // Serial.print("Delta time: ");
+    // Serial.println(deltaTime);
+    // Serial.print("Delta pos: ");
+    // Serial.println(deltaPosition);
+    // Serial.print("New angular speed: ");
+    // Serial.println(angularSpeed, 20);
   };
 
   // Get angular speed (radians per second)
