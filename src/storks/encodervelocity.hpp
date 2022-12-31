@@ -30,6 +30,12 @@ constexpr auto cpr = ppr * 4; // Quadrature, see above
 constexpr auto degreesPerPosition = 360.0 / cpr;
 constexpr auto radiansPerPosition = degreesPerPosition * (M_PI / 180.0);
 
+constexpr auto scaleAngularSpeed = 1;
+
+// This will scale the size of increments of the encoder post velocity
+// Set this higher than 1 to make encoder changes happen more drastically
+constexpr auto scaleDeltaAngle = 2;
+
 class EncoderVelocity {
 public:
   EncoderVelocity(){
@@ -54,10 +60,9 @@ public:
     // FIXME: This will always be 1, right?
     const auto deltaPosition = abs(newValue - oldValue);
 
-    const float deltaAngle = deltaPosition * radiansPerPosition;
+    const float deltaAngle = deltaPosition * radiansPerPosition * scaleDeltaAngle;
 
     // Radians per time unit
-	const auto scaleAngularSpeed = 1;
     angularSpeed = (deltaAngle / static_cast<float>(deltaTime)) * scaleAngularSpeed;
 
     oldReadTime = newReadTime;
